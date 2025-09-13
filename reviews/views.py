@@ -1,5 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
+
 # views.py
 
 
@@ -18,8 +19,9 @@ def index(request):
 def search_page(request):
     """search view for search text"""
     search = request.GET.get("search") or "world"
-    return HttpResponse(f"{search}")
-    #return render(request, "reviews/search.html", search)
+    html_content = f"<h1>{search}</h1>"
+    return HttpResponse(html_content)
+    # return render(request, "reviews/search.html", search)
 
 
 # Create your views here.
