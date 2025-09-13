@@ -10,3 +10,7 @@ review Model
 
 Book view
 review view
+
+
+## impotant checks
+set DEBUG to False when running app in production

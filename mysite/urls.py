@@ -18,10 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("reviews/", include("reviews.urls"))
+    path("", include("reviews.urls")),
     # This maps to reviews/urls.py to get to the view.py
-    #that has the blog_home function that renders the view
+    # that accesses the blog_home function to then renders the view in
+    # the browser at / path. To get it to render at /review
+    # change the path to "/reviews"
 ]

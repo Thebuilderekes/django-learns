@@ -27,7 +27,6 @@ All commands that can run with the `manage.py` script are called management comm
 - Example: A view that fetches all blog posts and passes them to a template.
 - Views do not always need the model for it to work. You can have a view just send data directly to the template
 
-
 ### **3. Template**
 
 - The **presentation layer**.
@@ -56,119 +55,106 @@ An HTTP request consists of 4 parts
 
 ### 1. **request.method**
 
-* The HTTP method used (e.g., `'GET'`, `'POST'`, `'PUT'`, `'DELETE'`, etc.)
+- The HTTP method used (e.g., `'GET'`, `'POST'`, `'PUT'`, `'DELETE'`, etc.)
 
 ```python
 request.method  # 'GET' or 'POST'
 ```
 
-
 ### 2. **request.GET**
 
-* A dictionary-like object containing **GET parameters** from the query string.
+- A dictionary-like object containing **GET parameters** from the query string.
 
 ```python
 request.GET['search']  # ?search=django
 ```
 
-
 ### 3. **request.POST**
 
-* A dictionary-like object containing **POST parameters** (usually from forms).
+- A dictionary-like object containing **POST parameters** (usually from forms).
 
 ```python
 request.POST['username']
 ```
 
-
 ### 4. **request.FILES**
 
-* A dictionary-like object containing uploaded **files**.
+- A dictionary-like object containing uploaded **files**.
 
 ```python
 request.FILES['profile_picture']
 ```
 
-
 ### 5. **request.path**
 
-* The **full path** of the request (without the domain).
+- The **full path** of the request (without the domain).
 
 ```python
 request.path  # '/blog/5/'
 ```
 
+### 6. **request.path_info**
 
-### 6. **request.path\_info**
-
-* Same as `request.path`, but without URL resolving middleware interference.
-
+- Same as `request.path`, but without URL resolving middleware interference.
 
 ### 7. **request.META**
 
-* A dictionary containing all available **HTTP headers**, **server variables**, and **environment info** (like `REMOTE_ADDR`, `HTTP_USER_AGENT`, etc.)
+- A dictionary containing all available **HTTP headers**, **server variables**, and **environment info** (like `REMOTE_ADDR`, `HTTP_USER_AGENT`, etc.)
 
 ```python
 request.META['HTTP_USER_AGENT']
 request.META['REMOTE_ADDR']
 ```
 
-
 ### 8. **request.COOKIES**
 
-* A dictionary containing all cookies sent by the client.
+- A dictionary containing all cookies sent by the client.
 
 ```python
 request.COOKIES['sessionid']
 ```
 
-
 ### 9. **request.session**
 
-* A dictionary-like object representing the current user's **session** data.
+- A dictionary-like object representing the current user's **session** data.
 
 ```python
 request.session['user_id'] = 42
 ```
 
-
 ### 10. **request.user**
 
-* An instance of the currently authenticated **User**, if logged in.
+- An instance of the currently authenticated **User**, if logged in.
 
 ```python
 if request.user.is_authenticated:
     ...
 ```
 
-
 ### 11. **request.body**
 
-* The **raw HTTP body** of the request (as bytes), useful for handling things like JSON or XML manually.
+- The **raw HTTP body** of the request (as bytes), useful for handling things like JSON or XML manually.
 
 ```python
 import json
 data = json.loads(request.body)
 ```
 
+### 12. **request.content_type**
 
-### 12. **request.content\_type**
-
-* The MIME type of the request body (e.g., `'application/json'`, `'multipart/form-data'`).
+- The MIME type of the request body (e.g., `'application/json'`, `'multipart/form-data'`).
 
 ```python
 request.content_type  # 'application/json'
 ```
 
-
 ### 13. **request.encoding**
 
-* The character encoding used to decode the request body.
+- The character encoding used to decode the request body.
 
 ```python
 request.encoding  # 'utf-8'
 ```
-
 
 ## 🧠 Summary
 
@@ -182,9 +168,102 @@ request.encoding  # 'utf-8'
 | `session`     | Session data (if middleware is enabled)       |
 | `user`        | Authenticated user (if middleware is enabled) |
 | `body`        | Raw request body                              |
-| `path`        | Path of the request URL                       |
 
+| `path` | Path of the request URL |
 
+## 🔍 What is a QueryDict in Django?
+
+A **QueryDict** is a special type of dictionary used by Django to store **HTTP request data**.
+
+It’s used internally to handle data from:
+
+- `request.GET` → data from the URL (query string)
+- `request.POST` → data from submitted forms (POST request body)
+
+Django automatically parses incoming request data and wraps it in a `QueryDict` object, so you can easily access the values.
+
+## 🚀 Where You'll Encounter QueryDict
+
+### 1. **GET Parameters** (from the URL)
+
+Example URL:
+
+```
+http://example.com/search?query=django&page=2
+```
+
+In your Django view:
+
+```python
+def my_view(request):
+    search_term = request.GET['query']     # 'django'
+    page_number = request.GET['page']      # '2'
+```
+
+Here, `request.GET` is a `QueryDict`.
+
+### 2. **POST Parameters** (from a form)
+
+Example HTML form:
+
+```html
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="username" />
+  <input type="password" name="password" />
+  <button type="submit">Login</button>
+</form>
+```
+
+In your Django view:
+
+```python
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+```
+
+Here, `request.POST` is also a `QueryDict`.
+
+## 🧠 Key Features of QueryDict
+
+### ✅ 1. **Supports Multiple Values for the Same Key**
+
+Unlike normal Python dictionaries, a `QueryDict` can store **multiple values** for a single key.
+
+Example query string:
+
+```
+/filter?tag=python&tag=django&tag=web
+```
+
+In Django:
+
+```python
+tags = request.GET.getlist('tag')  # ['python', 'django', 'web']
+```
+
+### ✅ 2. **Immutable by Default**
+
+`QueryDict` objects are **immutable** — meaning you can’t change them unless you make a copy:
+
+```python
+mutable_data = request.POST.copy()
+mutable_data['new_key'] = 'value'
+```
+
+## 🧩 Summary
+
+| Attribute            | Details                                           |
+| -------------------- | ------------------------------------------------- |
+| **Type**             | Django's `QueryDict` (like a dictionary)          |
+| **Where**            | `request.GET` and `request.POST`                  |
+| **Supports**         | Multiple values per key (`getlist()`)             |
+| **Default Behavior** | Immutable (must `.copy()` to modify)              |
+| **Purpose**          | Clean, structured access to incoming request data |
+
+Let me know if you’d like code examples for custom forms or working with files (which also use a `QueryDict`-like object: `request.FILES`).
 
 ## HTTP response
 
@@ -194,14 +273,41 @@ An HTTP response consists of 3 parts
 - Headers
 - body
 
-
 ## Request and response flow
+
 1. Match URL request against URL routes
 2. Call view method with HTTP request object
 3. Perform logic inside view method
 4. Return HTTP response object
 5. Send response to client
 
+## urls.py
+
+This file is responsible for the communication between URLs and the view. It contains the pattern variables that is a list of URL paths and the view that concerns each path. Hello.
+
+## Settings.py
+
+It is important to have a `settings.py` file in your code made by you or else Django will always fall back to it's default setting, especially when it comes to `DEBUG` setting in the `settings.py`
+
+## Templates
+
+When it comes to rendering html templates, Django already knows to look into any folder called template when you refer to it in the view. So there is no need to target the template file from its parent folder, simply insert the name of the template file directly in the render function and it will refer to it.
+Variables can be loaded into a template using the render function located in
+the view. The variables are set as key-value arguments in the render function
+and this allows them to be processed by Django.
 
 
+## Exceptions
+Exceptions are errors that have to be caught, otherwise they bubble up into
+your code and cause the program to crash,most times with an error message that
+tells you what went wrong. Some errors are python specific errors while others
+are Django specific errors. DEBUG= True makes it so that you can see these
+errors during development but the quality is different in production as you will
+find a less detailed error log, only an internal service error page that has
+less sensitive information.
+
+## Debugging
+Code can be debugged using the built in debugger that comes with Django. This
+will make it easy for you to tell when the error is coming from the
+fetching of data or from your template.
 

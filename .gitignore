@@ -1,4 +1,5 @@
-
+./mysite/settings.py
+research.md
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,1 @@
+ - Today's exercise is making it so that the `httpResponse` displayed on the page is gotten from the search query result
