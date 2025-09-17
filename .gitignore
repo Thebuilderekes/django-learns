@@ -1,5 +1,6 @@
 ./mysite/settings.py
 research.md
+track_progress.md
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -33,5 +34,5 @@ db.sqlite3
 Thumbs.db
 
 # Migrations (optional – uncomment to ignore)
-/migrations/
-/migrations/__init__.py
+##/migrations/
+##/migrations/__init__.py

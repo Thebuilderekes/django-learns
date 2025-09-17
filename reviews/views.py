@@ -20,11 +20,13 @@ def search_page(request):
     """search view for search text"""
     search = request.GET.get("search") or "world"
     html_content = f"<h1>{search}</h1>"
-    return HttpResponse(html_content)
+    html_content_bytes = html_content.encode('utf-8')
+    return HttpResponse(html_content_bytes)
     # return render(request, "reviews/search.html", search)
 
-
+def about(request):
+    """about page view"""
+    return render(request, 'reviews/about.html')
 # Create your views here.
 
 
-# Create your views here.

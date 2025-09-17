@@ -22,7 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("reviews.urls")),
     # This maps to reviews/urls.py to get to the view.py
-    # that accesses the blog_home function to then renders the view in
-    # the browser at / path. To get it to render at /review
-    # change the path to "/reviews"
+    # that accesses the index function to then render the view in
+    # the browser at localhost:8000 path. To get it to render at /review
+    # simply change the path to "reviewsa"
 ]

@@ -296,8 +296,8 @@ Variables can be loaded into a template using the render function located in
 the view. The variables are set as key-value arguments in the render function
 and this allows them to be processed by Django.
 
-
 ## Exceptions
+
 Exceptions are errors that have to be caught, otherwise they bubble up into
 your code and cause the program to crash,most times with an error message that
 tells you what went wrong. Some errors are python specific errors while others
@@ -307,7 +307,40 @@ find a less detailed error log, only an internal service error page that has
 less sensitive information.
 
 ## Debugging
+
 Code can be debugged using the built in debugger that comes with Django. This
 will make it easy for you to tell when the error is coming from the
 fetching of data or from your template.
 
+## static files
+
+Static files are files like CSS, JavaScript and media that need to be referred to in the templates.
+They are require `DEBUG = True` in other to be loaded successfully and are handles by server during production
+when `DEBUG = False`
+
+## MODELS AND MIGRATIONS
+
+Models are python classes that hold the blueprint for creating database tables.
+
+Models call from the `django.db` module
+
+Migration is the process of turning python code into database structures such as database fields and tables.
+
+## Migration process
+The `sqlmigrate` command in Django is not a mandatory step for migrations because its purpose is to show you the SQL code that will be executed, not to run the migration itself.
+
+Here's a breakdown of the typical Django migration workflow and why `sqlmigrate` is an optional step:
+
+1.  **`python manage.py makemigrations`**: This is the first and essential step. When you change your Django models (e.g., add a new field, change a field's properties, or create a new model), this command tells Django to "look for changes" and generate a migration file. This file is a Python script that describes the changes to be made to the database schema. It's a declarative, human-readable record of your model changes.
+
+2.  **`python manage.py migrate`**: This is the command that actually applies the changes to your database. It reads the migration files created by `makemigrations` and executes the necessary SQL commands to update the database schema. This is the core command for keeping your database in sync with your models.
+
+3.  **`python manage.py sqlmigrate <app_name> <migration_name>`**: This is the optional step. It's a utility command that takes a migration file as an argument and prints the raw SQL code that the `migrate` command would run. It **does not** modify your database.
+
+**Why would you use `sqlmigrate`?**
+
+* **Reviewing the SQL**: It's a great way to double-check what Django is about to do to your database. This is particularly useful for complex migrations, in production environments, or on databases with specific performance characteristics (like large tables or many rows). You can review the generated SQL to ensure it's what you intended, and that it won't cause unexpected issues.
+* **Manual Application**: In some highly regulated or specific production environments, you might not have the permissions to run `python manage.py migrate` directly. In these cases, a database administrator might require you to provide the SQL queries to run manually. The `sqlmigrate` command allows you to generate these queries.
+* **Debugging**: If a migration is failing, looking at the raw SQL can often help you understand why. It gives you a direct view into what the database is complaining about.
+
+In summary, `makemigrations` and `migrate` are the core commands for the Django migration system, automating the process of schema changes. The `sqlmigrate` command is a tool for developers and administrators to inspect and understand the generated SQL, providing transparency and control without being a required part of the standard, automated workflow.
