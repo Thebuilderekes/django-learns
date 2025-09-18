@@ -327,6 +327,7 @@ Models call from the `django.db` module
 Migration is the process of turning python code into database structures such as database fields and tables.
 
 ## Migration process
+
 The `sqlmigrate` command in Django is not a mandatory step for migrations because its purpose is to show you the SQL code that will be executed, not to run the migration itself.
 
 Here's a breakdown of the typical Django migration workflow and why `sqlmigrate` is an optional step:
@@ -339,8 +340,18 @@ Here's a breakdown of the typical Django migration workflow and why `sqlmigrate`
 
 **Why would you use `sqlmigrate`?**
 
-* **Reviewing the SQL**: It's a great way to double-check what Django is about to do to your database. This is particularly useful for complex migrations, in production environments, or on databases with specific performance characteristics (like large tables or many rows). You can review the generated SQL to ensure it's what you intended, and that it won't cause unexpected issues.
-* **Manual Application**: In some highly regulated or specific production environments, you might not have the permissions to run `python manage.py migrate` directly. In these cases, a database administrator might require you to provide the SQL queries to run manually. The `sqlmigrate` command allows you to generate these queries.
-* **Debugging**: If a migration is failing, looking at the raw SQL can often help you understand why. It gives you a direct view into what the database is complaining about.
+- **Reviewing the SQL**: It's a great way to double-check what Django is about to do to your database. This is particularly useful for complex migrations, in production environments, or on databases with specific performance characteristics (like large tables or many rows). You can review the generated SQL to ensure it's what you intended, and that it won't cause unexpected issues.
+- **Manual Application**: In some highly regulated or specific production environments, you might not have the permissions to run `python manage.py migrate` directly. In these cases, a database administrator might require you to provide the SQL queries to run manually. The `sqlmigrate` command allows you to generate these queries.
+- **Debugging**: If a migration is failing, looking at the raw SQL can often help you understand why. It gives you a direct view into what the database is complaining about.
 
 In summary, `makemigrations` and `migrate` are the core commands for the Django migration system, automating the process of schema changes. The `sqlmigrate` command is a tool for developers and administrators to inspect and understand the generated SQL, providing transparency and control without being a required part of the standard, automated workflow.
+
+## Primary key
+
+In order to uniquely identify a record in a database, there has to be a way to refer to that record. This is
+is done by assigning a primary key
+In Django when a primary key is not explicitly set, an id is created to represent the primary key. There can be only one primary key per model.
+
+### Many to one
+
+One publisher can have many books they have published. This is an example of having a many to one relationship.
