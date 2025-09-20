@@ -3,6 +3,8 @@
 Django is s web framework that allows users to build full fledge apps with front end, backend and database control. It is written in Python and is suitable for apps that need to be robust, fast and manageable.
 Django follows the MVC pattern but has its own slightly modified version called MVT standing for Model, view, template. In this type, the view communicates with the model and renders a template
 
+Learn abotu Django [security]https://corgea.com/Learn/django-security-best-practices-a-comprehensive-guid-for-software-engineers
+
 ## manage.py
 
 When a basic Django app is created, it is created with a mange.py script available for use.
@@ -301,7 +303,7 @@ and this allows them to be processed by Django.
 Exceptions are errors that have to be caught, otherwise they bubble up into
 your code and cause the program to crash,most times with an error message that
 tells you what went wrong. Some errors are python specific errors while others
-are Django specific errors. DEBUG= True makes it so that you can see these
+are Django specific errors. `DEBUG= True` makes it so that you can see these
 errors during development but the quality is different in production as you will
 find a less detailed error log, only an internal service error page that has
 less sensitive information.
@@ -309,7 +311,7 @@ less sensitive information.
 ## Debugging
 
 Code can be debugged using the built in debugger that comes with Django. This
-will make it easy for you to tell when the error is coming from the
+will make it easy for you to tell where the error is coming from the
 fetching of data or from your template.
 
 ## static files
@@ -321,9 +323,7 @@ when `DEBUG = False`
 ## MODELS AND MIGRATIONS
 
 Models are python classes that hold the blueprint for creating database tables.
-
 Models call from the `django.db` module
-
 Migration is the process of turning python code into database structures such as database fields and tables.
 
 ## Migration process
@@ -349,9 +349,24 @@ In summary, `makemigrations` and `migrate` are the core commands for the Django 
 ## Primary key
 
 In order to uniquely identify a record in a database, there has to be a way to refer to that record. This is
-is done by assigning a primary key
+is done by assigning a primary key.
 In Django when a primary key is not explicitly set, an id is created to represent the primary key. There can be only one primary key per model.
+
+## Relationships
 
 ### Many to one
 
 One publisher can have many books they have published. This is an example of having a many to one relationship.
+
+We could say that one user can review many books but if you delete the user, the books still remain so there isn't much of a relationship to call it a one or many relationship. 
+
+### Many to many
+
+Book and Contributor: A book can have many contributors (author, editor, illustrator, etc.), and a contributor can be associated with many books.
+Book and User (via Reviews): A book can be reviewed by many users, and a user can review many books. This relationship is implicitly many-to-many through the Review model, which links a Book and a User (the reviewer).
+
+### one to many
+
+You create a one-to-many relationship using a ForeignKey field. The field is
+always added to the "many" side of the relationship.
+Book and Review: A single Book can have many Reviews. Each review, however, is for only one book. You would put a ForeignKey field pointing to the Book model within your Review model.
