@@ -2,6 +2,7 @@
 
 Django is s web framework that allows users to build full fledge apps with front end, backend and database control. It is written in Python and is suitable for apps that need to be robust, fast and manageable.
 Django follows the MVC pattern but has its own slightly modified version called MVT standing for Model, view, template. In this type, the view communicates with the model and renders a template
+for example
 
 Learn abotu Django [security]https://corgea.com/Learn/django-security-best-practices-a-comprehensive-guid-for-software-engineers
 
@@ -358,7 +359,7 @@ In Django when a primary key is not explicitly set, an id is created to represen
 
 One publisher can have many books they have published. This is an example of having a many to one relationship.
 
-We could say that one user can review many books but if you delete the user, the books still remain so there isn't much of a relationship to call it a one or many relationship. 
+We could say that one user can review many books but if you delete the user, the books still remain so there isn't much of a relationship to call it a one or many relationship.
 
 ### Many to many
 
@@ -370,3 +371,53 @@ Book and User (via Reviews): A book can be reviewed by many users, and a user ca
 You create a one-to-many relationship using a ForeignKey field. The field is
 always added to the "many" side of the relationship.
 Book and Review: A single Book can have many Reviews. Each review, however, is for only one book. You would put a ForeignKey field pointing to the Book model within your Review model.
+
+## Modifying table data using the shell
+
+Type `python manage.py shell` to enter shell interaction mode
+and then
+`from reviews.models import Publisher`
+then
+`publisher=Publisher(name="Packt publishing", website="https://www.packhub.com", email="info@packthub.com")`
+and then
+`publisher.save()` to write the model object into the database.
+
+To do all of this in one step, use the `create()`
+for example
+`publisher=Publisher.object.create(name="Packt publishing", website="https://www.packhub.com", email="info@packthub.com")`
+and this will create and save a record at the same time.
+
+## NOTE
+
+- To use a model in the shell, you must first import it from the file
+- To set relationships to the value of a record that points to the primary key while creating an object you must first get that record either by using one of the record property e.g `object_name = Class.objects.get(name="value")` or by using its primary key e.g `object_name = Class.objects.get(pk=key_number)`
+
+# example of shell commands
+
+- To create a contributor
+
+```
+contributor_object_name = Contributor.objects.create(first_names="", last-names="", email="")
+```
+
+- To create a book
+
+```
+book_object_name = Contributor.objects.create(title="", publication_date="", isbn="")
+```
+
+- To create a bookContributor
+
+```
+BookContributor.objects.create(
+        book=[book_object_name],
+        contributor=[Contributor_object_name],
+        role=BookContributor.ContributionRole.[role_name]
+    )
+```
+
+- To create a publisher
+
+```
+publisher_object_name = Publisher(name="", website=", email="")
+```

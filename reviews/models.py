@@ -29,8 +29,9 @@ class Contributor(models.Model):
 
 
 class Book(models.Model):
-    """defining a book model"""
-
+    """creates a Book table in a database with columns for title, publication
+    date, ISBN, a link to a publisher, and a link to a list of
+        contributors."""
     title = models.CharField(
         max_length=50, help_text="The name of the Publisher.cation_dates"
     )
@@ -46,6 +47,19 @@ class Book(models.Model):
 
 
 class BookContributor(models.Model):
+    """
+    A model that links a Book to a Contributor, specifying the contributor's role.
+
+    This is a "through" table used to manage the many-to-many relationship
+    between books and contributors, allowing us to store extra information,
+    like the specific role (e.g., Author, Editor), on the relationship itself.
+
+    Attributes:
+        book (ForeignKey): The book associated with the contributor.
+        contributor (ForeignKey): The contributor (e.g., author) linked to the book.
+        role (CharField): The specific role the contributor had in the book, chosen
+                          from a predefined list.
+    """
     class ContributionRole(models.TextChoices):
         AUTHOR = "AUTHOR", "Author"
         CO_AUTHOR = "CO_AUTHOR", "Co-Author"
@@ -61,31 +75,33 @@ class BookContributor(models.Model):
 
     def __str__(self):
         return f"{self.contributor} - {self.book}"
-        # • book: This is a foreign key to the Book model.
-        # As we saw previously, on_ delete=models.CASCADE will delete an
-        # entry from the relationship table when the relevant book is deleted from the application.
-        # • Contributor: This is again a foreign key to the
-        # Contributor model/table. This is also defined as CASCADE upon deletion.
-        # • role: This is the field of the intermediary model,
-        # which stores the extra information about the relationship between Book and Contributor.
-        # • class ContributionRole(models.TextChoices): This can be used to define a set of 
-        #choices by creating a subclass of models.TextChoices. For example, 
-        #ContributionRole is a subclass created out of TextChoices, which is used by 
-        # the roles field to define Author, Co-Author, and Editor as a set of choices.
-        # • choices: This refers to a set of choices defined in the models, and they are useful when creating Django Forms using the models.
 
 
-# The Review model to store user-submitted reviews and ratings.
 class Review(models.Model):
+
     """
-    Model to store a single user's review and rating for a specific book.
+    Represents a single user's review and rating for a specific book.
+
+    This model stores all the essential information for a book review,
+    including the book it's for, the user who wrote it, the rating they
+    gave, and the review's text and timestamps.
+
+    Attributes:
+        book (ForeignKey): The specific book that is being reviewed.
+                           Deleting the book will also delete this review.
+        user (ForeignKey): The user who submitted the review. Deleting
+                           the user will also delete this review.
+        rating (IntegerField): The numerical rating given to the book,
+                               typically from 1 to 5.
+        comment (TextField, optional): The detailed review text provided
+                                       by the user.
+        date_created (DateTimeField): Automatically set timestamp for
+                                      when the review was first created.
+        date_edited (DateTimeField, optional): Timestamp for when the
+                                               review was last edited.
     """
 
-    # A foreign key to the Book model, creating a many-to-one relationship.
-    # When a book is deleted, all its reviews will also be deleted (CASCADE).
-    book = models.ForeignKey(
-        "Book", on_delete=models.CASCADE, help_text="The book that this review is for"
-    )
+    book = models.ForeignKey( "Book", on_delete=models.CASCADE, help_text="The book that this review is for")
 
     # A text field for the review comment. It is optional.
     comment = models.TextField(help_text="Provide a detailed review of the book.")
