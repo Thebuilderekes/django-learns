@@ -32,15 +32,15 @@ class Book(models.Model):
     """creates a Book table in a database with columns for title, publication
     date, ISBN, a link to a publisher, and a link to a list of
         contributors."""
-    title = models.CharField(
-        max_length=50, help_text="The name of the Publisher.cation_dates"
-    )
-    publication_date = models.DateField(verbose_name="saye book was published")
+
+    title = models.CharField(max_length=50, help_text="The title of the book")
+    publication_date = models.DateField(verbose_name="The date book was published")
     isbn = models.CharField(max_length=20, verbose_name="ISBN of the book")
     # we will now refer to the table that we want to associate a
     # book to so the one is Publisher, the many is Book
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     contributor = models.ManyToManyField(Contributor, through="BookContributor")
+
 
     def __str__(self):
         return f"{self.title}"
@@ -48,7 +48,8 @@ class Book(models.Model):
 
 class BookContributor(models.Model):
     """
-    A model that links a Book to a Contributor, specifying the contributor's role.
+    A model that links a Book to a Contributor, specifying the
+    contributor's role.
 
     This is a "through" table used to manage the many-to-many relationship
     between books and contributors, allowing us to store extra information,
@@ -60,6 +61,7 @@ class BookContributor(models.Model):
         role (CharField): The specific role the contributor had in the book, chosen
                           from a predefined list.
     """
+
     class ContributionRole(models.TextChoices):
         AUTHOR = "AUTHOR", "Author"
         CO_AUTHOR = "CO_AUTHOR", "Co-Author"
@@ -78,7 +80,6 @@ class BookContributor(models.Model):
 
 
 class Review(models.Model):
-
     """
     Represents a single user's review and rating for a specific book.
 
@@ -101,20 +102,20 @@ class Review(models.Model):
                                                review was last edited.
     """
 
-    book = models.ForeignKey( "Book", on_delete=models.CASCADE, help_text="The book that this review is for")
+    book = models.ForeignKey(
+        "Book", on_delete=models.CASCADE, help_text="The book that this review is for"
+    )
 
     # A text field for the review comment. It is optional.
-    comment = models.TextField(help_text="Provide a detailed review of the book.")
+    content = models.TextField(help_text="Provide a detailed review of the book.")
 
     # A foreign key to the User model provided by Django's authentication system.
     # When a user is deleted, their reviews are also deleted.
-    user = models.ForeignKey(
+    creator = models.ForeignKey(
         auth.get_user_model(),
         on_delete=models.CASCADE,
     )
-
-    # An integer field for the rating, with validators to ensure it's between 1 and 5.
-    rating = models.IntegerField(help_text="the rating this user ghas given")
+    rating = models.IntegerField(help_text="The rating that the reviewvwer has given")  # Make sure the 'rating' field exists
 
     # A timestamp for when the review was created.
     # auto_now_add=True automatically sets the date and time when the object is first created.

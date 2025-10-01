@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block content %}
+<p>We currently have <strong>{{ count }}</strong> books in our inventory.</p>
+
+{% if book_list %}
+<ul>
+  {% for item in book_list %}
+  <li>
+    <h2>Title: {{ item.book.title }}</h2>
+    <p>Publisher: {{item.book_pub}}</p>
+    <p>Publication date: {{item.book_pub_date}}</p>
+    <p>
+      <strong>Rating: </strong>
+      {% if item.book_rating %} {{ item.book_rating|floatformat:1 }} / 5 {% else %}
+      No Rating Yet 
+      {% endif %}
+    </p>
+
+    <p>
+      <strong>Reviews:</strong>
+      {{ item.number_of_reviews }}
+    </p>
+  </li>
+  {% endfor %} {% endif %}
+</ul>
+{% endblock %}

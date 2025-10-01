@@ -1,32 +1,78 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from .models import Book
+from .utils import average_rating
 
 # views.py
 
 
-def index(request):
-    """index view for reviews"""
-    # name = request.GET.get("name") or "world"
-    # say we were working with data in the URL and we look at the query
-    # string and find that #there is a blank value set for name like "?name="
-    # then the value of name falls to "world"
-    context = {"page_name": "reviews", "welcome_message": "Welcome to  Book app"}
-    # any variable that need s to be rendered must be passed into the render
-    # function as a context as seen below
-    return render(request, "reviews/base.html", context)
+def home(request):
+    welcome_message = "Welcome to the Book App"
+    context = {"welcome_message": welcome_message}
+    return render(request, "reviews/index.html", context)
 
 
-def search_page(request):
-    """search view for search text"""
-    search = request.GET.get("search") or "world"
-    html_content = f"<h1>{search}</h1>"
-    html_content_bytes = html_content.encode('utf-8')
-    return HttpResponse(html_content_bytes)
-    # return render(request, "reviews/search.html", search)
+def book_list(request):
+    """View to list all books in the database with their details"""
+    books = Book.objects.all()
+    book_list = []
+    for book in books:
+        reviews = book.review_set.all()
 
-def about(request):
-    """about page view"""
-    return render(request, 'reviews/about.html')
-# Create your views here.
+        # The expression reviews = book.review_set.all() works because of Django's automatic reverse relationship lookup for ForeignKey fields.
 
+        # Since your Review model has a ForeignKey pointing to the Book model, Django automatically gives the Book object a property to access all related Review objects.
+        # This establishes a one-to-many relationship: one Book can have many Review objects. The Review model is on the "many" side and holds the foreign key.
 
+        # 2. Django Creates the Reverse Manager
+
+        # Because the Review model has a ForeignKey pointing to Book, Django automatically creates a reverse relationship manager on the Book model instances.
+
+        #   By default, this manager is named using the lowercase name of the related model (Review) followed by _set.
+
+        #   Therefore, an instance of the Book model (book) gains a property called review_set.
+
+        # If you wanted to rename this manager for clarity (e.g., to avoid the default _set name), you could define a related_name on the ForeignKey field in the Review model:
+
+        if reviews:
+            book_rating = average_rating([review.rating for review in reviews])
+            number_of_reviews = len(reviews)
+        else:
+            book_rating = None
+            number_of_reviews = 0
+        book_list.append(
+            {
+                "book": book,
+                "book_pub": book.publisher,
+                "book_pub_date": book.publication_date,
+                "book_rating": book_rating,
+                "number_of_reviews": number_of_reviews,
+            }
+        )
+    context = {"book_list": book_list}
+
+    # Render the HTML template, passing the context
+    return render(request, "reviews/books.html", context)
+
+def book_detail(request, pk):
+    """view to display the review detail of a book"""
+    book = get_object_or_404(Book, pk=pk)
+    reviews = book.review_set.all()
+    if reviews:
+        book_rating = average_rating([review.rating for review in reviews])
+        context = {
+            "book": book,
+            "book_rating": book_rating,
+            "reviews": reviews
+        }
+    else:
+        context = {
+            "book": book,
+            "book_rating": None,
+            "reviews": None
+        }
+    return render(request, "reviews/book-detail.html", context)
+
+def test_page(request):
+    """This view is for testing only"""
+    return render(request, 'testing.html')

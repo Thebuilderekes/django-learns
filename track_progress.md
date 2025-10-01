@@ -2,4 +2,6 @@
 
  - ch-2 Started learning about models and migrations
  - models have been created and migrated
+
+ - ch-3 learnt about URL mapping, and how the view works
  

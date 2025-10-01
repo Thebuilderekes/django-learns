@@ -1,0 +1,65 @@
+
+content:Publisher
+publisher_name,publisher_website,publisher_email
+Alpha Publishing,https://alpha.com,info@alpha.com
+Beta Books,https://beta.com,contact@beta.com
+Gamma Reads,https://gamma.com,hello@gamma.com
+Delta Press,https://delta.com,support@delta.com
+Epsilon House,https://epsilon.com,info@epsilon.com
+Zeta Media,https://zeta.com,contact@zeta.com
+Eta Editions,https://eta.com,hello@eta.com
+Theta Books,https://theta.com,support@theta.com
+Iota Publishing,https://iota.com,info@iota.com
+Kappa House,https://kappa.com,contact@kappa.com
+
+content:Book
+book_title,book_publication_date,book_isbn,book_publisher_name
+Mastering Django,2021/01/10,9780000000001,Alpha Publishing
+Learning Python,2020/05/23,9780000000002,Beta Books
+Web Dev Basics,2019/07/15,9780000000003,Gamma Reads
+Advanced Django,2022/02/20,9780000000004,Delta Press
+Intro to Programming,2023/03/01,9780000000005,Epsilon House
+Frontend Mastery,2020/08/18,9780000000006,Zeta Media
+APIs with Django,2021/11/12,9780000000007,Eta Editions
+Python in Practice,2022/09/30,9780000000008,Theta Books
+Databases 101,2018/04/22,9780000000009,Iota Publishing
+Full Stack Dev,2021/12/05,9780000000010,Kappa House
+
+content:Contributor
+contributor_first_names,contributor_last_names,contributor_email
+Alice,Anderson,alice@example.com
+Bob,Baker,bob@example.com
+Carol,Clark,carol@example.com
+David,Doe,david@example.com
+Eva,Edwards,eva@example.com
+Frank,Fisher,frank@example.com
+Grace,Green,grace@example.com
+Hank,Hughes,hank@example.com
+Ivy,Irwin,ivy@example.com
+Jack,Johnson,jack@example.com
+
+content:BookContributor
+book_contributor_book,book_contributor_contributor,book_contributor_role
+Mastering Django,alice@example.com,AUTHOR
+Learning Python,bob@example.com,EDITOR
+Web Dev Basics,carol@example.com,AUTHOR
+Advanced Django,david@example.com,AUTHOR
+Intro to Programming,eva@example.com,EDITOR
+Frontend Mastery,frank@example.com,AUTHOR
+APIs with Django,grace@example.com,AUTHOR
+Python in Practice,hank@example.com,EDITOR
+Databases 101,ivy@example.com,AUTHOR
+Full Stack Dev,jack@example.com,AUTHOR
+
+content:Review
+review_book,review_creator,review_content,review_rating,review_date_created,review_date_edited
+Mastering Django,user1@example.com,Excellent coverage of advanced topics,5,2021-02-01,2021-02-03
+Learning Python,user2@example.com,Very beginner-friendly,4,2020-06-01,2020-06-02
+Web Dev Basics,user3@example.com,Good overview,3,2019-07-20,2019-07-25
+Advanced Django,user4@example.com,Great for experienced devs,5,2022-03-01,2022-03-03
+Intro to Programming,user5@example.com,Perfect for newcomers,4,2023-03-10,2023-03-12
+Frontend Mastery,user6@example.com,Useful but outdated in parts,3,2020-09-01,2020-09-02
+APIs with Django,user7@example.com,Covers REST well,4,2021-11-20,2021-11-21
+Python in Practice,user8@example.com,Well-structured and practical,5,2022-10-01,2022-10-02
+Databases 101,user9@example.com,Too basic,2,2018-05-01,2018-05-02
+Full Stack Dev,user10@example.com,Amazing all-rounder,5,2021-12-10,2021-12-12

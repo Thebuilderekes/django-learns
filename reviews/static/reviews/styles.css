@@ -1,0 +1,42 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  padding: 0 10px;
+}
+
+h1 {
+  margin: 20px 0;
+  text-align: center;
+}
+
+ul li {
+  padding: 10px 0;
+}
+
+p {
+  font-weight: 800;
+  margin: 5px 0;
+}
+
+a.btn {
+  text-decoration: none;
+  color: white;
+  margin: 30px 0;
+  padding: 5px 10px;
+  background-color: tomato;
+}
+
+.basehtml-text {
+  color: red;
+}
