@@ -4,6 +4,7 @@ from django.db import models
 
 # Create your models here.
 class Publisher(models.Model):
+# Create your models here.
     """A company that publishes books."""
 
     # Publisher class is a subclass of Django's models.Model
@@ -32,12 +33,13 @@ class Book(models.Model):
     """creates a Book table in a database with columns for title, publication
     date, ISBN, a link to a publisher, and a link to a list of
         contributors."""
-
+ 
     title = models.CharField(max_length=50, help_text="The title of the book")
     publication_date = models.DateField(verbose_name="The date book was published")
     isbn = models.CharField(max_length=20, verbose_name="ISBN of the book")
     # we will now refer to the table that we want to associate a
     # book to so the one is Publisher, the many is Book
+    #foreign keys are always set on the many side of the one-to-many relationship
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
     contributor = models.ManyToManyField(Contributor, through="BookContributor")
 

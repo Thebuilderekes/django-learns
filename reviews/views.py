@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404
-
 from .models import Book
 from .utils import average_rating
 
@@ -7,14 +6,22 @@ from .utils import average_rating
 
 
 def home(request):
-    welcome_message = "Welcome to the Book App"
-    context = {"welcome_message": welcome_message}
+    title = "Welcome to the Book App"
+    context = {"title ":title }
     return render(request, "reviews/index.html", context)
+
+def book_search(request):
+    title = "search results for books"
+    search_text = request.GET.get("search", "")
+    context = {"title":title, "search_text": search_text}
+    return render(request, "reviews/book-search.html", context)
+
 
 
 def book_list(request):
     """View to list all books in the database with their details"""
     books = Book.objects.all()
+    title = "List of all books"
     book_list = []
     for book in books:
         reviews = book.review_set.all()
@@ -49,7 +56,7 @@ def book_list(request):
                 "number_of_reviews": number_of_reviews,
             }
         )
-    context = {"book_list": book_list}
+    context = {"book_list": book_list, "title": title}
 
     # Render the HTML template, passing the context
     return render(request, "reviews/books.html", context)
@@ -57,6 +64,7 @@ def book_list(request):
 def book_detail(request, pk):
     """view to display the review detail of a book"""
     book = get_object_or_404(Book, pk=pk)
+    title = f"Details of {book.title}"
     reviews = book.review_set.all()
     if reviews:
         book_rating = average_rating([review.rating for review in reviews])
@@ -69,7 +77,8 @@ def book_detail(request, pk):
         context = {
             "book": book,
             "book_rating": None,
-            "reviews": None
+            "reviews": None,
+            "title":title
         }
     return render(request, "reviews/book-detail.html", context)
 

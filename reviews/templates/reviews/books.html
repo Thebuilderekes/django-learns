@@ -10,8 +10,11 @@
     <p>Publication date: {{item.book_pub_date}}</p>
     <p>
       <strong>Rating: </strong>
-      {% if item.book_rating %} {{ item.book_rating|floatformat:1 }} / 5 {% else
-      %} No Rating Yet {% endif %}
+      {% if item.book_rating %}
+        {{ item.book_rating|floatformat:1 }} / 5 
+      {% else %}
+        No Rating Yet 
+      {% endif %}
     </p>
     <p>
       <strong>Reviews:</strong>
