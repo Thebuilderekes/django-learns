@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
-    "reviews.apps.ReviewsAdminConfig",
+    "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",

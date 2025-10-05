@@ -5,5 +5,5 @@ class ReviewsConfig(AppConfig):
     name = 'reviews'
 
 class ReviewsAdminConfig(AdminConfig):
-    default_site = 'admin.BookRevSite'
+    default_site = 'reviews.admin.BookRevAdminSite'
 
