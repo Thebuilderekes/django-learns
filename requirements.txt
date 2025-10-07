@@ -1,0 +1,15 @@
+# Django framework
+Django>=5.2.5
+
+# Environment variable management
+python-decouple>=3.8
+
+# Production server (optional)
+# gunicorn>=21.2.0
+
+# Database adapter (if using PostgreSQL)
+# psycopg2-binary>=2.9.9
+
+# Additional useful packages for Django
+# django-environ>=0.11.2
+# pillow>=10.0.0  # for ImageField support

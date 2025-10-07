@@ -1,4 +1,24 @@
 import os
+from pathlib import Path
+
+# Import python-decouple for environment variables
+try:
+    # pip install python-decouple
+    from decouple import config, Csv
+except ImportError:
+    # Fallback if python-decouple is not installed
+    import os
+    def config(key, default=None, cast=None):
+        value = os.getenv(key, default)
+        if cast and value:
+            return cast(value)
+        return value
+    
+    class Csv:
+        def __init__(self, cast=str):
+            self.cast = cast
+        def __call__(self, value):
+            return [self.cast(v.strip()) for v in value.split(',')]
 
 """
 Django settings for mysite project.
@@ -11,7 +31,6 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,19 +39,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-mg-dj8$gx7=yid&dncg_)(lx4tay%vmcf__u2*g2jk0^_jnbb_"
+# Load from environment variable
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-CHANGE-THIS-IN-PRODUCTION')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+# Load allowed hosts from environment
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv())
 
 # Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
     "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
+    'django_extensions',
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
