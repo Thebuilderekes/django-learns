@@ -5,10 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{title}}</title>
-    <link rel="stylesheet" href="{% static 'reviews/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'reviews/css/styles.css' %}" />
   </head>
 
   <body>
+    <a href=""><img src="{% static 'reviews/img/logo.png' %}" alt=""></a>
     <h1>Welcome to Book app</h1>
     <p>this is from base template</p>
     {% block content %} {% endblock %}

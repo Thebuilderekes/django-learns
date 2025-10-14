@@ -1,0 +1,11 @@
+review_id,review_book_title,review_content,review_creator,review_rating,review_date_created,review_date_edited
+2,Learning Python,Very beginner-friendly,user2@example.com,4,2025/09/09,2025/10/13
+9,Databases 101,Too basic,user9@example.com,2,2025/09/07,2025/10/13
+5,Intro to Programming,Perfect for newcomers,user5@example.com,4,2025/09/02,2025/10/13
+10,Full Stack Dev,Amazing all-rounder,user10@example.com,5,2025/08/31,2025/10/13
+6,Frontend Mastery,Useful but outdated in parts,user6@example.com,3,2025/08/24,2025/10/13
+7,APIs with Django,Covers REST well,user7@example.com,4,2025/08/20,2025/10/13
+4,Advanced Django,Great for experienced devs,user4@example.com,5,2025/08/18,2025/10/13
+1,Mastering Django,Excellent coverage of advanced topics,user1@example.com,5,2025/08/07,2025/10/13
+3,Web Dev Basics,Good overview,user3@example.com,3,2025/08/06,2025/10/13
+8,Python in Practice,Well-structured and practical,user8@example.com,5,2025/07/17,2025/10/13

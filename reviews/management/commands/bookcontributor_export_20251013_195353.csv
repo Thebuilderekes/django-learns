@@ -1,0 +1,11 @@
+bookcontributor_id,bookcontributor_book,bookcontributor_contributor_email,bookcontributor_role
+1,Mastering Django,alice@example.com,Author
+3,Web Dev Basics,carol@example.com,Author
+4,Advanced Django,david@example.com,Author
+6,Frontend Mastery,frank@example.com,Author
+7,APIs with Django,grace@example.com,Author
+9,Databases 101,ivy@example.com,Author
+10,Full Stack Dev,jack@example.com,Author
+2,Learning Python,bob@example.com,Editor
+5,Intro to Programming,eva@example.com,Editor
+8,Python in Practice,hank@example.com,Editor

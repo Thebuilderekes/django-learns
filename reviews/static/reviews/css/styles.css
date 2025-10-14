@@ -13,6 +13,7 @@ html {
 body {
   width: 100%;
   padding: 0 10px;
+  background-color: skyblue;
 }
 
 h1 {
@@ -34,7 +35,12 @@ a.btn {
   color: white;
   margin: 30px 0;
   padding: 5px 10px;
-  background-color: tomato;
+  background-color: darkslategray;
+}
+
+a img {
+  width: 100px;
+  height: 100px;
 }
 
 .basehtml-text {

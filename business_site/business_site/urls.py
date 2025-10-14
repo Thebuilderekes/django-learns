@@ -1,5 +1,5 @@
 """
-URL configuration for mysite project.
+URL configuration for business_site project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -15,17 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import include, path
-from reviews.admin import admin_site
+from django.contrib import admin
+from django.urls import path, include
 
-# NOte that you can import reviews.views and
-# individually use each url directly in this file but for
-# organization the entire reviews url is included in the file
 urlpatterns = [
-    path('myadmin/', admin_site.urls),
-    path("", include("reviews.urls")),
-    # This maps to reviews/urls.py to get to the view.py
-    # that accesses the index function to then render the view in
-    # the browser at localhost:8000 path. To get it to render at /review
-    # simply change the path to "reviewsa"
+    path("admin/", admin.site.urls),
+    path("", include("landing.urls")),
 ]

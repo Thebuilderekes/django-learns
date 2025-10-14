@@ -1,0 +1,11 @@
+book_id,book_title,book_publication_date,book_isbn,book_publisher
+5,Intro to Programming,2023/03/01,9780000000005,Epsilon House
+8,Python in Practice,2022/09/30,9780000000008,Theta Books
+4,Advanced Django,2022/02/20,9780000000004,Delta Press
+10,Full Stack Dev,2021/12/05,9780000000010,Kappa House
+7,APIs with Django,2021/11/12,9780000000007,Eta Editions
+1,Mastering Django,2021/01/10,9780000000001,Alpha Publishing
+6,Frontend Mastery,2020/08/18,9780000000006,Zeta Media
+2,Learning Python,2020/05/23,9780000000002,Beta Books
+3,Web Dev Basics,2019/07/15,9780000000003,Gamma Reads
+9,Databases 101,2018/04/22,9780000000009,Iota Publishing

@@ -98,7 +98,7 @@ class Book(models.Model):
     def get_average_rating(self):
         """Calculate the average rating for this book."""
         from django.db.models import Avg
-        result = self.reviews.aggregate(avg_rating=Avg('rating'))
+        result = self.reviews.aggregate(avg_rating=Avg('rating')) # type: ignore
         return result['avg_rating'] or 0
 
 
@@ -134,15 +134,19 @@ class BookContributor(models.Model):
     )
 
     class Meta:
-        unique_together = ['book', 'contributor', 'role']  # Prevent duplicate entries
+        constraints = [
+            models.UniqueConstraint(
+                fields=['book', 'contributor', 'role'],
+                name='unique_book_contributor_role'
+            ),
+        ]
         ordering = ['role', 'contributor__last_names']
         indexes = [
             models.Index(fields=['book', 'role']),
         ]
 
     def __str__(self):
-        return f"{self.contributor.full_name} - {self.get_role_display()} - {self.book.title}"
-
+        return f"{self.contributor.full_name} - {self.get_role_display()} - {self.book.title}" #type: ignore[attr-defined]  # type: ignore[attr-defined]
 
 class Review(models.Model):
     """
@@ -183,7 +187,12 @@ class Review(models.Model):
 
     class Meta:
         ordering = ['-date_created']
-        unique_together = ['book', 'creator']  # One review per user per book
+        constraints = [
+            models.UniqueConstraint(
+                fields=['book', 'creator'],
+                name='unique_book_creator'
+            ),
+        ]
         indexes = [
             models.Index(fields=['book', '-date_created']),
             models.Index(fields=['creator', '-date_created']),
