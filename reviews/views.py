@@ -1,23 +1,96 @@
-from django.shortcuts import get_object_or_404, render
 
-from .models import Book, Review
+from django.db.models import Q # Needed for combining filters with OR logic
+import logging
+from django.shortcuts import get_object_or_404, render
+from reviews.forms import CreateReview
+from reviews.forms.forms import SearchForm, NewsletterForm, OrderForm
+
+from .models import Book, Contributor, Review
 from .utils import average_rating
 
 # views.py
 
-
 def home(request):
     welcome_message = "Welcome to the Book App"
-    context = {"message": welcome_message}
+    newsletterForm = NewsletterForm(request.POST or None)
+    form = OrderForm(request.POST or None)
+
+    total_sum = None
+
+    if request.method == "POST":
+        if form.is_valid():
+            print("valid form")
+            # Retrieve total_sum calculated in form.clean()
+            total_sum = form.cleaned_data.get("total_sum")
+    else:
+        print("form errors", form.errors)
+
+    context = {
+        "message": welcome_message,
+        "form": newsletterForm,
+        "order_form": form,
+        "total_sum": total_sum,
+    }
     return render(request, "reviews/index.html", context)
 
-
 def book_search(request):
-    title = "search results for books"
-    search_text = request.GET.get("search", "")
-    context = {"title": title, "search_text": search_text}
+    title = "search and review book"
+    form = SearchForm(request.POST)
+    context = {'form': form, "title": title}
     return render(request, "reviews/book-search.html", context)
 
+
+def search_result(request):
+    title = "Search results for books"
+    search_term = ""
+    form = SearchForm(request.GET)
+    books_list = Book.objects.none()
+    
+    if form.is_valid():
+        data = form.cleaned_data
+        query = data.get('search', '').strip()
+        search_fields = data.get('search_book_by', [])
+        
+        if query and search_fields:
+            search_term = query
+            
+            # Build dynamic Q object for all search conditions
+            q_objects = Q()
+            
+            for field_name in search_fields:
+                if field_name == 'title':
+                    q_objects = q_objects | Q(title__icontains=query)
+                    
+                elif field_name == 'isbn':
+                    q_objects |= Q(isbn__icontains=query)
+                    
+                elif field_name == 'publisher':
+                    q_objects |= Q(publisher__name__icontains=query)
+                    
+                elif field_name == 'contributor':
+                    q_objects |= (
+                        Q(contributors__first_names__icontains=query) |
+                        Q(contributors__last_names__icontains=query)
+                    )
+            
+            # Single optimized query with all joins
+            books_list = (
+                Book.objects
+                .filter(q_objects)
+                .select_related('publisher')  # Join publisher table
+                .prefetch_related('contributors')  # Efficiently load contributors
+                .distinct()  # Remove duplicates from many-to-many
+            )
+        else:
+            search_term = "Please enter a search term and select search criteria"
+    
+    context = {
+        "title": title,
+        'search_term': search_term,
+        "form": form,
+        "books_results": books_list
+    }
+    return render(request, "reviews/book-search.html", context)
 
 def book_list(request):
     """View to list all books in the database with their details"""
@@ -71,6 +144,7 @@ def book_detail(request, pk):
     title = f"Details of {book.title}"
 
     reviews = Review.objects.filter(book=book)
+    # Alternative
     # reviews = book.reviews.all()  # type: ignore[attr-defined]
 
     if reviews:
@@ -86,6 +160,24 @@ def book_detail(request, pk):
     return render(request, "reviews/book-detail.html", context)
 
 
-def test_page(request):
+def post_review(request):
     """This view is for testing only"""
-    return render(request, "testing.html")
+    return render(request, "reviews/post_review.html")
+
+
+def create_review(request):
+    if request.method == 'POST':
+
+        form = CreateReview(request.POST)
+        if form.is_valid():
+            print("this its the type of form", type(form))
+            for name, value in form.cleaned_data.items():
+                print("this is name from form.cleaned data", "this is name:", name, "this is value:", value)
+                print("{}: {}".format(name, type(value), value))
+        else:
+            logger.error(f"Form errors: {form.errors}")
+    else:
+        form = CreateReview()
+    return render(
+        request, "reviews/create_review.html", {"method": request.method, "form": form}
+    )

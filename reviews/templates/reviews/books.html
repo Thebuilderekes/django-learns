@@ -1,33 +1,43 @@
-{% extends 'reviews/base.html' %} {% block content %}
-<p>We currently have <strong>{{ count }}</strong> books in our inventory.</p>
+{% extends 'reviews/base.html' %}
+{% load static %}
 
-{% if book_list %}
-<ul>
-  {% for item in book_list %}
-  <li>
-    <h2>Title: {{ item.book.title }}</h2>
-    <p>Publisher: {{item.book_pub}}</p>
-    <p>Publication date: {{item.book_pub_date}}</p>
-    <p>
-      <strong>Rating: </strong>
-      {% if item.book_rating %}
-        {{ item.book_rating|floatformat:1 }} / 5 
-      {% else %}
-        No Rating Yet 
-      {% endif %}
+{% block content %}
+    <h1 class="inventory-header">Inventory Summary</h1>
+    <p class="inventory-count">
+        We currently have <strong>{{ count }}</strong> books in our inventory.
     </p>
-    <p>
-      <strong>Reviews:</strong>
-      {{ item.number_of_reviews }}
-    </p>
-    <!--The link below loads the view book_detail of the book that has the  primary key-->
-    <a
-      class="btn btn-primary btn-sm active"
-      role="button"
-      href="{% url 'book_detail' item.book.pk %}"
-      >Reviews
-    </a>
-  </li>
-  {% endfor %} {% endif %}
-</ul>
+
+    {% if book_list %}
+        <div class="book-list-grid">
+            {% for item in book_list %}
+                <div class="book-card">
+
+                    <div class="card-header">
+                        <h2 class="book-title">{{ item.book.title }}</h2>
+                        <div class="rating-info">
+                            <strong>Rating:</strong>
+                            {% if item.book_rating %}
+                                <span class="rating-value rating-{{ item.book_rating|floatformat:0 }}">{{ item.book_rating|floatformat:1 }} / 5</span>
+                            {% else %}
+                                <span class="no-rating">No Rating Yet</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="book-details">
+                        <p class="detail-line"><span class="detail-label">Publisher:</span> {{ item.book_pub }}</p>
+                        <p class="detail-line"><span class="detail-label">Publication Date:</span> {{ item.book_pub_date }}</p>
+                        <p class="detail-line"><span class="detail-label">Reviews:</span> {{ item.number_of_reviews }}</p>
+                    </div>
+
+                    <a class="view-details-btn"
+                        href="{% url 'book_detail' item.book.pk %}">View Details</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-books-message">
+            <p>The inventory is empty!</p>
+        </div>
+    {% endif %}
 {% endblock %}

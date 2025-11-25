@@ -1,14 +1,170 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="{% static 'reviews/css/styles.css' %}" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{{ title }}</title>
+        <link rel="stylesheet" href="{% static 'reviews/css/styles.css' %}" />
+        <link rel="stylesheet" href="{% static 'reviews/css/index.css' %}" />
 
-  <body>
-    <h1>{{message}}</h1>
-  </body>
+    </head>
+    <body>
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">BookReview</a>
+            <ul class="nav-links">
+                <li><a href="/books/">Browse Books</a></li>
+                <li><a href="/reviews/">Reviews</a></li>
+                <li><a href="/about/">About</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="/profile/">Profile</a></li>
+                    <li><a href="/logout/" class="btn btn-outline">Logout</a></li>
+                {% else %}
+                    <li><a href="/login/" class="btn btn-primary">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Your Next Great Read</h1>
+        <p>Share your thoughts, find amazing books, and connect with fellow readers in our vibrant community</p>
+        
+        <div class="hero-buttons">
+            <a href="/books" class="btn btn-primary" style="background: white; color: #667eea;">Explore Books</a>
+            <a href="/books" class="btn btn-outline" style="border-color: white; color: white;">Write a Review</a>
+        </div>
+
+        <form class="search-bar">
+            <input type="text" placeholder="Search for books, authors, or genres...">
+            <button>Search</button>
+        </form >
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose BookReview?</h2>
+            <p class="section-subtitle">Everything you need to share and discover great books</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3>Review Books</h3>
+                    <p>Share your honest opinions and help others discover their next favorite read</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Find Books</h3>
+                    <p>Search through thousands of books by title, author, or publisher</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Rate & Recommend</h3>
+                    <p>Give ratings and see what the community thinks about each book</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Join Community</h3>
+                    <p>Connect with book lovers and discover recommendations from readers like you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter-section">
+        <div class="newsletter-content">
+            <h2>Stay Updated</h2>
+            <p>Get the latest book reviews and recommendations delivered to your inbox</p>
+            
+            <form class="newsletter-form" method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        {{ form.signup }}
+                        <label for="{{ form.signup.id_for_label }}">
+                            {{ form.signup.label }}
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group email-field" id="email-field">
+                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.help_text %}
+                        <p class="help-text">{{ form.email.help_text }}</p>
+                    {% endif %}
+                    {% if form.email.errors %}
+                        <p class="error">{{ form.email.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="submit-btn">Subscribe to Newsletter</button>
+            </form>
+                </div>
+    <div class="test-form" id="test-form">
+
+      <form method="POST">
+          {% csrf_token %}
+          {{order_form}}
+          <button type="submit" class="submit-btn">add</button>
+        </form>
+
+        <p>Total Sum: {{ total_sum }}</p>
+    </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>BookReview</h3>
+                <p>Your community for book reviews and recommendations.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/books/">Browse Books</a></li>
+                    <li><a href="/reviews/">All Reviews</a></li>
+                    <li><a href="/about/">About Us</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Account</h3>
+                <ul>
+                    <li><a href="/login/">Login</a></li>
+                    <li><a href="/signup/">Sign Up</a></li>
+                    <li><a href="/profile/">My Profile</a></li>
+                    <li><a href="/reviews/my-reviews/">My Reviews</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="/privacy/">Privacy Policy</a></li>
+                    <li><a href="/terms/">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 BookReview. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src={% static 'reviews/js/script.js' %}>
+  
+</script>
+           </body>
 </html>

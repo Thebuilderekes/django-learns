@@ -1,17 +1,45 @@
-<!doctype html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="{% static 'reviews/css/styles.css' %}" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{{ title }}</title>
 
-  <body>
-    <a href=""><img src="{% static 'reviews/img/logo.png' %}" alt=""></a>
-    <h1>Welcome to Book app</h1>
-    <p>this is from base template</p>
-    {% block content %} {% endblock %}
-  </body>
+        <link rel="stylesheet" href="{% static 'reviews/css/styles.css' %}" />
+
+        <link rel="stylesheet" href="{% static 'reviews/css/search.css' %}" />
+
+        <link rel="stylesheet" href="{% static 'reviews/css/index.css' %}" />
+        <link rel="stylesheet" href="{% static 'reviews/js/script.js' %}" />
+    </head>
+    <body>
+<nav>
+        <div class="nav-container">
+            <a href="/" class="logo">BookReview</a>
+            <ul class="nav-links">
+                <li><a href="/books/">Browse Books</a></li>
+                <li><a href="/reviews/">Reviews</a></li>
+                <li><a href="/about/">About</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="/profile/">Profile</a></li>
+                    <li><a href="/logout/" class="btn btn-outline">Logout</a></li>
+                {% else %}
+                    <li><a href="/login/" class="btn btn-primary">Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
+        <a href="">
+            <img src="{% static 'reviews/img/logo.png' %}" alt="">
+        </a>
+<main>
+
+        <p>this is from base template</p>
+        {% block content %}{% endblock %}
+
+        </main>
+    </body>
 </html>

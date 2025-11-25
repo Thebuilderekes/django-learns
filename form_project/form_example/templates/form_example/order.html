@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+      <div>
+
+                <label for={{ form.quantity.id_for_label }}>Would you like to sign up?
+        {{form.quantity}}
+      </div>
+            <div>
+                {{ form.signup }}
+                <label for={{ form.signup.id_for_label }}>Would you like to sign up?
+                </label>
+            </div>
+            <div>
+                <label for={{ form.email.id_for_label }}>Enter your email
+                </label>
+                {{ form.email }}
+            </div>
+            <button type="submit">submit</button>
+        </form>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Find all error lists
+                document.querySelectorAll("ul.errorlist").forEach(function (ul) {
+
+                    // Check if all <li> inside are empty ("" or whitespace)
+                    const allEmpty = [...ul.querySelectorAll("li")].every(li => li.textContent.trim() === "");
+
+                    if (allEmpty) {
+                        ul.remove();   // Remove it from the DOM
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

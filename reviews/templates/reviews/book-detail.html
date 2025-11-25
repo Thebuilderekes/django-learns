@@ -1,40 +1,63 @@
 {% extends 'reviews/base.html' %}
+{% load static %}
 
 {% block content %}
+    <div class="book-detail-container">
+        <header class="detail-header">
+            <h1 class="book-detail-title">{{ book.title }}</h1>
+            <h3 class="subtitle">{{ title }}</h3>
+        </header>
 
-<br>
+        <section class="book-metadata-card">
+            <dl class="metadata-list">
+                <div class="metadata-item">
+                    <dt class="metadata-label">Publisher:</dt>
+                    <dd class="metadata-value">{{ book.publisher }}</dd>
+                </div>
+                <div class="metadata-item">
+                    <dt class="metadata-label">Publication Date:</dt>
+                    <dd class="metadata-value">{{ book.publication_date }}</dd>
+                </div>
+            </dl>
+        </section>
 
-<h3>{{title}}</h3>
-<hr>
-<span class="text-info">Title: </span> <span>{{ book.title }}</span>
-<br>
-<span class="text-info">Publisher: </span><span>{{ book.publisher }}</span>
-<br>
-<span class="text-info">Publication Date: </span><span>{{ book.publication_date }}</span>
-<br>
-{% if not reviews %}
-<hr>
-<h3>Be the first one to write a review.</h3>
-{% else %}
-<span class="text-info">Overall Rating: </span><span class="badge badge-primary badge-pill">{{ book_rating }}</span>
-<br>
-<hr>
-<h3>Review Comments</h3>
-<ul>
-  {% for review in reviews %}
-  <li class="list-group-item">
-    <span class="text-info">Review comment: </span> <span>{{ review.content }}</span>
-    <br>
-    <small class="text-info">Created on: </small><small>{{ review.date_created }}</small >
-    <br>
-    <small class="text-info">Modified on: </small><small>{{ review.date_edited }}</small >
-    <br>
-    <span class="text-info">Rating: </span><span class="badge badge-secondary badge-pill">{{ review.rating }}</span>
-    <br>
-    <!-- <span class="text-info">Creator: </span><span>{{ review.creator.username }}</span> -->
-    <br>
-  </li>
-  {% endfor %}
-</ul>
-{% endif %}
+        {% if not reviews %}
+            <hr class="separator">
+            <div class="no-reviews-message">
+                <h3>Be the first one to write a review.</h3>
+            </div>
+        {% else %}
+            <section class="rating-summary">
+                <span class="summary-label">Overall Rating:</span>
+                <span class="rating-pill">{{ book_rating|floatformat:1 }} / 5</span>
+            </section>
+
+            <hr class="separator">
+
+            <section class="review-comments">
+                <h3>Review Comments ({{ reviews.count }})</h3>
+                <ul class="review-list">
+                    {% for review in reviews %}
+                        <li class="review-item">
+                            <div class="review-content">
+                                <p class="review-text">
+                                    <span class="review-label">Comment:</span>
+                                    {{ review.content }}
+                                </p>
+                            </div>
+
+                            <div class="review-footer">
+                                <div class="review-dates">
+                                    <small class="timestamp">Created on: {{ review.date_created|date:"M d, Y H:i" }}</small>
+                                    <small class="timestamp">Modified on: {{ review.date_edited|date:"M d, Y H:i" }}</small>
+                                </div>
+                                <span class="review-rating-pill">⭐ {{ review.rating }}</span>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+    </div>
 {% endblock %}
+

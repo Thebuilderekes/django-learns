@@ -19,3 +19,9 @@
  - learnt about loading static folder into templates to make url paths recognize from static folder
  - Learnt about STATIC_URL and STATIC_ROOT file setting.
  -
+
+- ch-6
+- Learnt about how to create form usinf ``forms.Form``
+- Every form field has its own way of getting customised with attributeds that define the behavior of the field, from required attributes, to character limits etc 
+
+

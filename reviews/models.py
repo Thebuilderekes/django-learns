@@ -36,7 +36,7 @@ class Contributor(models.Model):
         db_index=True  # Index for searching by last name
     )
     email = models.EmailField(help_text="The contributor's email")
-
+    id = models.AutoField(primary_key=True)
     class Meta:
         ordering = ['last_names', 'first_names']
         indexes = [
@@ -55,10 +55,10 @@ class Contributor(models.Model):
 class Book(models.Model):
     """
     Represents a book with its publication details.
-    
+
     Links to Publisher (one-to-many) and Contributors (many-to-many).
     """
- 
+
     title = models.CharField(
         max_length=70,  # Increased for longer titles
         help_text="The title of the book",

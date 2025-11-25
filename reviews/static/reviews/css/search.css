@@ -1,0 +1,197 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.search-header {
+
+  background-color: #007bff;
+  /* Blue header */
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-search-container {
+
+  width: 40%;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+
+.search-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+  display: flex;
+  /* Use flexbox for side-by-side layout */
+  gap: 30px;
+}
+
+/* --- Refine Form Area (Sidebar) --- */
+.refine-form-area {
+  flex: 0 0 250px;
+  /* Fixed width sidebar */
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+  /* Only take up necessary height */
+}
+
+/* Style the form elements within the sidebar */
+.refine-form-area label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #007bff;
+}
+
+.refine-form-area input[type="search"],
+.refine-form-area select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.refine-form-area button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #28a745;
+  /* Green submit button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.refine-form-area button[type="submit"]:hover {
+  background-color: #1e7e34;
+}
+
+/* --- Results Area --- */
+.results-area {
+  flex: 1;
+  /* Takes up the remaining space */
+}
+
+.book-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+/* --- Individual Book Card Styling --- */
+.book-card {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  /* Soft shadow for depth */
+  border-left: 5px solid #007bff;
+  /* Blue accent bar */
+  transition: transform 0.2s;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+  /* Subtle lift effect on hover */
+}
+
+.book-title-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.book-title {
+  color: #333;
+  font-size: 1.5em;
+  margin: 0;
+}
+
+/* --- Details and Tags --- */
+.rating-badge {
+  background-color: #ffc107;
+  /* Yellow badge */
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.detail-line {
+  margin: 5px 0;
+  font-size: 0.95em;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #555;
+  margin-right: 5px;
+}
+
+.contributor-tag {
+  display: inline-block;
+  background-color: #e9ecef;
+  /* Light gray tag */
+  color: #6c757d;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-right: 5px;
+}
+
+.view-details-button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 15px;
+  background-color: #17a2b8;
+  /* Teal button */
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.view-details-button:hover {
+  background-color: #138496;
+}
+
+.no-results-message {
+  padding: 30px;
+  background-color: #fff3cd;
+  /* Light warning yellow */
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.1em;
+}
+
+/* --- Add this to your styles.css --- */
+.error-message {
+  color: #dc3545;
+  /* Red error text */
+  font-weight: bold;
+  margin-top: 5px;
+  font-size: 0.9em;
+}
