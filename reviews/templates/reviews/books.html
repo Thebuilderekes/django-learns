@@ -2,42 +2,54 @@
 {% load static %}
 
 {% block content %}
-    <h1 class="inventory-header">Inventory Summary</h1>
-    <p class="inventory-count">
-        We currently have <strong>{{ count }}</strong> books in our inventory.
-    </p>
+<h1 class="inventory-header">Inventory Summary</h1>
+<p class="inventory-count">
+  We currently have <strong>{{ count }}</strong> books in our inventory.
+</p>
 
-    {% if book_list %}
-        <div class="book-list-grid">
-            {% for item in book_list %}
-                <div class="book-card">
+{% if book_list %}
+<div class="book-list-grid">
+  {% for item in book_list %}
+  <div class="book-card">
+    <div class="card-header">
+      <h2 class="book-title">{{ item.book.title }}</h2>
+      <div class="rating-info">
+        <strong>Rating:</strong>
+        {% if item.book_rating %}
+        <span class="rating-value rating-{{ item.book_rating|floatformat:0 }}"
+          >{{ item.book_rating|floatformat:1 }}
+          / 5</span
+        >
+        {% else %}
+        <span class="no-rating">No Rating Yet</span>
+        {% endif %}
+      </div>
+    </div>
 
-                    <div class="card-header">
-                        <h2 class="book-title">{{ item.book.title }}</h2>
-                        <div class="rating-info">
-                            <strong>Rating:</strong>
-                            {% if item.book_rating %}
-                                <span class="rating-value rating-{{ item.book_rating|floatformat:0 }}">{{ item.book_rating|floatformat:1 }} / 5</span>
-                            {% else %}
-                                <span class="no-rating">No Rating Yet</span>
-                            {% endif %}
-                        </div>
-                    </div>
+    <div class="book-details">
+      <p class="detail-line">
+        <span class="detail-label">Publisher:</span>
+        {{ item.book_pub }}
+      </p>
+      <p class="detail-line">
+        <span class="detail-label">Publication Date:</span>
+        {{ item.book_pub_date }}
+      </p>
+      <p class="detail-line">
+        <span class="detail-label">Reviews:</span>
+        {{ item.number_of_reviews }}
+      </p>
+    </div>
 
-                    <div class="book-details">
-                        <p class="detail-line"><span class="detail-label">Publisher:</span> {{ item.book_pub }}</p>
-                        <p class="detail-line"><span class="detail-label">Publication Date:</span> {{ item.book_pub_date }}</p>
-                        <p class="detail-line"><span class="detail-label">Reviews:</span> {{ item.number_of_reviews }}</p>
-                    </div>
-
-                    <a class="view-details-btn"
-                        href="{% url 'book_detail' item.book.pk %}">View Details</a>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <div class="no-books-message">
-            <p>The inventory is empty!</p>
-        </div>
-    {% endif %}
+    <a class="view-details-btn" href="{% url 'book_detail' item.book.pk %}"
+      >View Details</a
+    >
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="no-books-message">
+  <p>The inventory is empty!</p>
+</div>
+{% endif %}
 {% endblock %}

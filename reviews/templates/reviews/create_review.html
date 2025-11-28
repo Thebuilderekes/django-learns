@@ -1,42 +1,44 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Create review</title>
-        <link href="{% static 'reviews/css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body>
-        {{ method }}
-        <p>This is create review page</p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create review</title>
+    <link href="{% static 'reviews/css/styles.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    {{ method }}
+    <p>This is create review page</p>
 
-    <form method="POST" >     
-            {% csrf_token %} {{ form.as_div }}
-            <button type="submit">
-                submit
-            </button
-        </form>
-            <script>
-      document.getElementById('create_review').addEventListener('submit', function (e) {
-        // Get all form data
-        const formData = new FormData(this);
+    <form method="POST">
+          
+      {% csrf_token %}
+      {{ form.as_div }}
+      <button type="submit">submit</button>
+    </form>
+    <script>
+      document
+        .getElementById('create_review')
+        .addEventListener('submit', function (e) {
+          // Get all form data
+          const formData = new FormData(this);
 
-        console.log('='.repeat(50));
-        console.log('Form Data Being Submitted:');
+          console.log('='.repeat(50));
+          console.log('Form Data Being Submitted:');
 
-        // Log each field
-        // for (let [key, value] of formData.entries()) {
-        //   console.log(`${key}: ${value}`);
-        // }
+          // Log each field
+          // for (let [key, value] of formData.entries()) {
+          //   console.log(`${key}: ${value}`);
+          // }
 
-        // Log as object
-        const formObject = Object.fromEntries(formData.entries());
-        // console.log('Form as Object:', formObject);
-        // console.log('='.repeat(50));
+          // Log as object
+          const formObject = Object.fromEntries(formData.entries());
+          // console.log('Form as Object:', formObject);
+          // console.log('='.repeat(50));
 
-        // Don't prevent default - let form submit normally
-      });
-            </script>
-        </body>
-    </html>
+          // Don't prevent default - let form submit normally
+        });
+    </script>
+  </body>
+</html>

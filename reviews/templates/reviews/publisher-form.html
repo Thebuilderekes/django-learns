@@ -1,0 +1,27 @@
+{% extends 'reviews/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div>
+  {% if success_message %}
+  <div id="toast-message" class="toast-success">
+    <p>✅ Success! Record added!</p>
+  </div>
+  {% endif %}
+</div>
+<div class="form-container">
+  <form method="POST" class="dark-form create-publisher-form">
+    {% csrf_token %}
+    <label for="{{form.name_id_for_label}}">{{form.name.label}}</label>
+    {{form.name}}
+    <label for="{{form.website_id_for_label}}">{{form.website.label}}</label>
+    {{form.website}}
+    <label for="{{form.email_id_for_label}}">{{form.email.label}}</label>
+    {{form.email}}
+    <button type="submit" class="submit-btn">add</button>
+  </form>
+</div>
+
+<!-- 9,Iota Publishing,https://iota.com,info@iota.co -->
+{% endblock %}

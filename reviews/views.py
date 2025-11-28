@@ -1,14 +1,12 @@
-
+# views.py
+from django.urls import reverse # Import reverse at the top of your views.py
 from django.db.models import Q # Needed for combining filters with OR logic
-import logging
-from django.shortcuts import get_object_or_404, render
-from reviews.forms import CreateReview
-from reviews.forms.forms import SearchForm, NewsletterForm, OrderForm
-
-from .models import Book, Contributor, Review
+from django.shortcuts import get_object_or_404, render, redirect
+from reviews.forms.forms import SearchForm, NewsletterForm, OrderForm, PublisherForm
+from django.contrib import messages
+from .models import Book, Review, Publisher
 from .utils import average_rating
 
-# views.py
 
 def home(request):
     welcome_message = "Welcome to the Book App"
@@ -33,6 +31,70 @@ def home(request):
     }
     return render(request, "reviews/index.html", context)
 
+def publisher_edit(request, pk=None):
+    # 1. Handle object retrieval for editing or initialize for creating
+    if pk:
+        # EDIT case: Retrieve existing Publisher object
+        publisher_instance = get_object_or_404(Publisher, pk=pk)
+        is_creating = False
+        is_updating = True
+    else:
+        # CREATE case: No pk provided, so initialize to None
+        publisher_instance = None
+        is_creating = True
+
+        form = PublisherForm(request.POST, instance=publisher_instance)
+    # 2. Handle POST request (Form submission)
+    if request.method == "POST":
+        # Create a Form instance, using request.POST data
+        # If editing (publisher_instance is not None), pass the instance for binding
+        form = PublisherForm(request.POST, instance=publisher_instance)
+
+        if form.is_valid():
+            updated_publisher = form.save()
+
+            # Set appropriate success message
+            action = "created" if is_creating else "updated"
+            messages.success(request, f"Publisher {updated_publisher} was successfully {action}.")
+# 1. Get the base URL path for the creation route
+            base_url = reverse('publisher_create')
+
+            # 2. Manually construct the full URL with query parameters
+            # Use f-strings for clear construction
+            full_url = f"{base_url}?success=true&action={action}&pk={updated_publisher.pk}"
+
+            # 3. Redirect the user to the fully constructed URL
+            return redirect(full_url)
+            # Redirect to the edit view of the newly created/updated object
+#            return redirect("publisher_edit", pk=updated_publisher.pk)
+
+    # 3. Handle GET request (Initial page load)
+    else:
+        # Create a Form instance, unbound if creating, or bound with
+        # the existing instance data if editing.
+        form = PublisherForm(instance=publisher_instance)
+
+    # 4. Render the template with the form
+    # The original code had the wrong parameters and a hardcoded success template.
+    # It should render the template containing the form.
+#         return render("request", "reviews/success.html",  {"form": form})
+        success_message = None
+        if request.GET.get('success') == 'true':
+                action = request.GET.get('action', 'saved')
+                pk = request.GET.get('pk')
+                success_message = f"Publisher ID {pk} was successfully {action}."
+
+            # 4. Render the template with the form and the message
+        return render(
+                request,
+                "reviews/publisher-form.html",
+                {
+                    "form": form,
+                    "success_message": success_message, # Pass the message to the template
+                }
+            )
+#
+
 def book_search(request):
     title = "search and review book"
     form = SearchForm(request.POST)
@@ -45,34 +107,34 @@ def search_result(request):
     search_term = ""
     form = SearchForm(request.GET)
     books_list = Book.objects.none()
-    
+
     if form.is_valid():
         data = form.cleaned_data
         query = data.get('search', '').strip()
         search_fields = data.get('search_book_by', [])
-        
+
         if query and search_fields:
             search_term = query
-            
+
             # Build dynamic Q object for all search conditions
             q_objects = Q()
-            
+
             for field_name in search_fields:
                 if field_name == 'title':
                     q_objects = q_objects | Q(title__icontains=query)
-                    
+
                 elif field_name == 'isbn':
                     q_objects |= Q(isbn__icontains=query)
-                    
+
                 elif field_name == 'publisher':
                     q_objects |= Q(publisher__name__icontains=query)
-                    
+
                 elif field_name == 'contributor':
                     q_objects |= (
                         Q(contributors__first_names__icontains=query) |
                         Q(contributors__last_names__icontains=query)
                     )
-            
+
             # Single optimized query with all joins
             books_list = (
                 Book.objects
@@ -83,14 +145,14 @@ def search_result(request):
             )
         else:
             search_term = "Please enter a search term and select search criteria"
-    
+
     context = {
         "title": title,
         'search_term': search_term,
         "form": form,
         "books_results": books_list
     }
-    return render(request, "reviews/book-search.html", context)
+    return render(request, "reviews/book-search_form.html", context)
 
 def book_list(request):
     """View to list all books in the database with their details"""

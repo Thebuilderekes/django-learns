@@ -14,6 +14,44 @@ body {
   width: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
+.toast-success {
+    /* Fixed positioning relative to the viewport */
+   display:flex;
+  justify-content: center;
+    /* Styling */
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    z-index: 1000; /* Ensure it stays above other content */
+    /* Animation definition: Toast shows for 3s, then runs the 'show-toast' animation */
+    /* The animation is subtle and optional, but it defines the 3s display time. */
+    animation: show-toast 3.5s ease-out forwards; 
+}
+
+.toast-success p {
+    color: white;
+}
+
+.form-container{
+  display: flex;
+  justify-content: center;
+}
+
+.dark-form {
+  color: #f1f1f1;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.dark-form input{
+  margin: 10px 0;
+  height: 30px;
+}
 
 
 

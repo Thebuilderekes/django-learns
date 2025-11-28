@@ -1,4 +1,5 @@
 from django import forms
+from reviews.models import Publisher
 
 
 class SearchForm(forms.Form):
@@ -84,8 +85,16 @@ class OrderForm(forms.Form):
                 )
 
             # Optional: Store the result for later use (e.g., in the view)
-            cleaned_data["itemA_value"] = 
+            cleaned_data['total_sum'] = total_sum
 
             print("this is cleaned data", cleaned_data)
         # 5. Always return the full set of cleaned data
         return cleaned_data
+
+
+
+class PublisherForm(forms.ModelForm):
+    class Meta:
+        model = Publisher
+        fields = ("name", "website", "email")
+
