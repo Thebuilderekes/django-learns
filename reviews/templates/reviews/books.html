@@ -14,7 +14,7 @@
     <div class="card-header">
       <h2 class="book-title">{{ item.book.title }}</h2>
       <div class="rating-info">
-        <strong>Rating:</strong>
+        <strong>Average rating:</strong>
         {% if item.book_rating %}
         <span class="rating-value rating-{{ item.book_rating|floatformat:0 }}"
           >{{ item.book_rating|floatformat:1 }}

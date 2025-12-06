@@ -1,11 +1,13 @@
 # views.py
-from django.urls import reverse # Import reverse at the top of your views.py
-from django.db.models import Q # Needed for combining filters with OR logic
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
-from reviews.forms.forms import SearchForm, NewsletterForm, OrderForm, PublisherForm
+from reviews.forms.forms import NewsletterForm, OrderForm
+from reviews.forms.book_forms import SearchForm, BookForm
+from reviews.forms.publisher_forms import PublisherForm
+from reviews.forms.review_forms import ReviewForm
 from django.contrib import messages
 from .models import Book, Review, Publisher
-from .utils import average_rating
+from .utils import average_rating, create_edit_view
 
 
 def home(request):
@@ -30,76 +32,49 @@ def home(request):
         "total_sum": total_sum,
     }
     return render(request, "reviews/index.html", context)
+# views.py
+publisher_create_edit = create_edit_view(
+    Publisher,
+    PublisherForm,
+    'reviews/create-publisher_form.html',
+    'publisher_detail',
+    obj_name_field='name'
+)
 
-def publisher_edit(request, pk=None):
-    # 1. Handle object retrieval for editing or initialize for creating
-    if pk:
-        # EDIT case: Retrieve existing Publisher object
-        publisher_instance = get_object_or_404(Publisher, pk=pk)
-        is_creating = False
-        is_updating = True
-    else:
-        # CREATE case: No pk provided, so initialize to None
-        publisher_instance = None
-        is_creating = True
+# --- Book Views ---
+book_create_edit = create_edit_view(
+    Book,
+    BookForm,
+    'reviews/create-Book_form.html',
+    'book_detail',
+    obj_name_field='title'
+)
+def publisher_list(request):
+    """List all publishers."""
+    publishers = Publisher.objects.all().order_by('name')
+    return render(request, 'reviews/publisher-list.html', {
+        'publishers': publishers
+    })
 
-        form = PublisherForm(request.POST, instance=publisher_instance)
-    # 2. Handle POST request (Form submission)
-    if request.method == "POST":
-        # Create a Form instance, using request.POST data
-        # If editing (publisher_instance is not None), pass the instance for binding
-        form = PublisherForm(request.POST, instance=publisher_instance)
+def publisher_detail(request, pk):
+    """Show publisher details."""
+    publisher = get_object_or_404(Publisher, pk=pk)
+    books = publisher.books.all()  # Using related_name='books'
+    submit_text = "Edit publisher"
 
-        if form.is_valid():
-            updated_publisher = form.save()
+    return render(request, 'reviews/publisher-detail.html', {
+        'publisher': publisher,
+        'books': books,
+    'submit_text': submit_text
+    })
 
-            # Set appropriate success message
-            action = "created" if is_creating else "updated"
-            messages.success(request, f"Publisher {updated_publisher} was successfully {action}.")
-# 1. Get the base URL path for the creation route
-            base_url = reverse('publisher_create')
 
-            # 2. Manually construct the full URL with query parameters
-            # Use f-strings for clear construction
-            full_url = f"{base_url}?success=true&action={action}&pk={updated_publisher.pk}"
-
-            # 3. Redirect the user to the fully constructed URL
-            return redirect(full_url)
-            # Redirect to the edit view of the newly created/updated object
-#            return redirect("publisher_edit", pk=updated_publisher.pk)
-
-    # 3. Handle GET request (Initial page load)
-    else:
-        # Create a Form instance, unbound if creating, or bound with
-        # the existing instance data if editing.
-        form = PublisherForm(instance=publisher_instance)
-
-    # 4. Render the template with the form
-    # The original code had the wrong parameters and a hardcoded success template.
-    # It should render the template containing the form.
-#         return render("request", "reviews/success.html",  {"form": form})
-        success_message = None
-        if request.GET.get('success') == 'true':
-                action = request.GET.get('action', 'saved')
-                pk = request.GET.get('pk')
-                success_message = f"Publisher ID {pk} was successfully {action}."
-
-            # 4. Render the template with the form and the message
-        return render(
-                request,
-                "reviews/publisher-form.html",
-                {
-                    "form": form,
-                    "success_message": success_message, # Pass the message to the template
-                }
-            )
-#
 
 def book_search(request):
     title = "search and review book"
     form = SearchForm(request.POST)
     context = {'form': form, "title": title}
-    return render(request, "reviews/book-search.html", context)
+    return render(request, "reviews/book-search_form.html", context)
 
 
 def search_result(request):
@@ -162,22 +137,6 @@ def book_list(request):
     book_list = []
     for book in books:
         reviews = Review.objects.filter(book=book)
-        # reviews = book.reviews.all()  # type: ignore[attr-defined]
-
-        # The expression reviews = book.review_set.all() works because of Django's automatic reverse relationship lookup for ForeignKey fields.
-
-        # Since your Review model has a ForeignKey pointing to the Book model, Django automatically gives the Book object a property to access all related Review objects.
-        # This establishes a one-to-many relationship: one Book can have many Review objects. The Review model is on the "many" side and holds the foreign key.
-
-        # 2. Django Creates the Reverse Manager
-
-        # Because the Review model has a ForeignKey pointing to Book, Django automatically creates a reverse relationship manager on the Book model instances.
-
-        #   By default, this manager is named using the lowercase name of the related model (Review) followed by _set.
-
-        #   Therefore, an instance of the Book model (book) gains a property called review_set.
-
-        # If you wanted to rename this manager for clarity (e.g., to avoid the default _set name), you could define a related_name on the ForeignKey field in the Review model:
 
         if reviews:
             book_rating = average_rating([review.rating for review in reviews])
@@ -198,6 +157,8 @@ def book_list(request):
 
     # Render the HTML template, passing the context
     return render(request, "reviews/books.html", context)
+
+
 
 
 def book_detail(request, pk):
@@ -227,19 +188,3 @@ def post_review(request):
     return render(request, "reviews/post_review.html")
 
 
-def create_review(request):
-    if request.method == 'POST':
-
-        form = CreateReview(request.POST)
-        if form.is_valid():
-            print("this its the type of form", type(form))
-            for name, value in form.cleaned_data.items():
-                print("this is name from form.cleaned data", "this is name:", name, "this is value:", value)
-                print("{}: {}".format(name, type(value), value))
-        else:
-            logger.error(f"Form errors: {form.errors}")
-    else:
-        form = CreateReview()
-    return render(
-        request, "reviews/create_review.html", {"method": request.method, "form": form}
-    )

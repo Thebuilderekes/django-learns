@@ -17,7 +17,7 @@ class ExampleForm(forms.Form):
             ('3', "fantastic Four")
         )),
     )
-    
+
     text_input = forms.CharField()
     password_input = forms.CharField(widget=forms.PasswordInput)
     checkbox_on = forms.BooleanField()

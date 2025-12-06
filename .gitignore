@@ -13,6 +13,7 @@ venv/
 env/
 
 # Django stuff:
+*.sqbpro
 *.log
 *.pot
 *.pyc

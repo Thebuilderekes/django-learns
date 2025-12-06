@@ -1,0 +1,41 @@
+{% extends 'reviews/base.html' %}
+
+{% block title %}
+    {{ publisher.name }} Details
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">📖 {{ publisher.name }}</h1>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Details</h3>
+                <p><strong>Website:</strong> <a href="{{ publisher.website }}" target="_blank">{{ publisher.website }}</a></p>
+                <p><strong>Email:</strong> <a href="mailto:{{ publisher.email }}">{{ publisher.email }}</a></p>
+                <p><strong>Total Books:</strong> <span class="badge bg-info">{{ books|length }}</span></p>
+            </div>
+            <div class="col-md-6 text-end">
+          <a href="{% url 'publisher_edit' pk=publisher.pk %}" class="btn btn-warning me-2">✏️ {{submit_text}}</a>
+                <a href="{% url 'publisher_list' %}" class="btn btn-secondary">🔙 Back to List</a>
+            </div>
+        </div>
+
+        <h3 class="mt-5">📚 Books Published</h3>
+        {% if books %}
+            <ul class="list-group">
+                {% for book in books %}
+                    <li class="list-group-item">
+                        <a href="{% url 'book_detail' pk=book.pk %}">{{ book.title }}</a>
+                        (Published: {{ book.publication_date|date:"Y" }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info mt-3" role="alert">
+                This publisher has no recorded books yet.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

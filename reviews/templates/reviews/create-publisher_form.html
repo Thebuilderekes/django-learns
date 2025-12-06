@@ -2,7 +2,12 @@
 
 {% load static %}
 
+{% block title %}
+BookReview | Add publisher
+{% endblock %}
+
 {% block content %}
+<h1 class="white">Add Publisher</h1>
 <div>
   {% if success_message %}
   <div id="toast-message" class="toast-success">
@@ -19,7 +24,7 @@
     {{form.website}}
     <label for="{{form.email_id_for_label}}">{{form.email.label}}</label>
     {{form.email}}
-    <button type="submit" class="submit-btn">add</button>
+    <button type="submit" class="submit-btn">{{submit_text}}</button>
   </form>
 </div>
 

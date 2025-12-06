@@ -1,0 +1,29 @@
+{% extends 'reviews/base.html' %}
+{% block title %}
+    Publisher List
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">📚 All Publishers</h1>
+
+        {% if publishers %}
+            <div class="list-group col">
+                {% for publisher in publishers %}
+                    <a href="{% url 'publisher_detail' pk=publisher.pk %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <strong>{{ publisher.name }}</strong>
+                        <span class="badge bg-primary rounded-pill">{{ publisher.books.count }} Books</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">
+                No publishers found.
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'publisher_create' %}" class="btn btn-success">➕ Add New Publisher</a>
+        </div>
+    </div>
+{% endblock %}

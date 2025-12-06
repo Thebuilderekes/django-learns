@@ -2,8 +2,8 @@
 
 - ch-2 Started learning about models and migrations
   - Created models, defined reklationships using froeignn  key and manytomany relations and migrated them
-  - 
-
+  -
+testword
 
 - ch-3 learnt about URL mapping, and how the view works
 
@@ -11,17 +11,19 @@
   - Learnt about superuser, groups and users
   - learnt about list_display and other model Admin variables and how to use it to show what details of the model will be on display in columns while viewing it in the admin page. ManytoMany fields cannot be used in list_display
   - Leant about the various settings that can be applied under a model admin that influences the layout of the model in the admin page.
-  - Organized the model Admins into their separate folders for maintainability  
+  - Organized the model Admins into their separate folders for maintainability
 
 - ch-5 serving static files
  - Learn about static/ files and how serving them depends on the value of the in STATIC_URL in settings.
- - Learnt about how to serve files in production environment compared to 
+ - Learnt about how to serve files in production environment compared to
  - learnt about loading static folder into templates to make url paths recognize from static folder
  - Learnt about STATIC_URL and STATIC_ROOT file setting.
  -
 
 - ch-6
 - Learnt about how to create form usinf ``forms.Form``
-- Every form field has its own way of getting customised with attributeds that define the behavior of the field, from required attributes, to character limits etc 
+- Every form field has its own way of getting customised with attributeds that define the behavior of the field, from required attributes, to character limits etc
 
 
+making [m to work by editing injection.scm file inside nvim/after/queries/htmldjango/
+folder
