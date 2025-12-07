@@ -2,13 +2,21 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return(super().get_queryset().filter(status=Post.Status.PUBLISHED))
+## can be return(super().get_queryset().filter(status=self.Status.PUBLISHED))
+# using self keyword to make it reusable for any model that needs to use a published status and in that case the Status subclass would be reusable as well, where if used in any model, it would point to that model
+#
 class Post(models.Model):
+    objects = models.Manager()
+    published = PublishedManager()
+
     # Every post has 2 states draft or published,
     # the Status class is to track these states
     class Status(models.TextChoices):
         DRAFT = 'DF', 'Draft'
-        published = 'PB', 'published'
+        PUBLISHED = 'PB', 'published'
 
     title = models.CharField(
             max_length=250,  # Increased for longer titles
@@ -22,8 +30,8 @@ class Post(models.Model):
         related_name='blog_posts'
     )
 
-    published = models.DateTimeField(
-        default=timezone.now
+    publish_date= models.DateTimeField(
+        default=timezone.now,
         )
 
     created = models.DateTimeField(auto_now_add=True)
@@ -39,10 +47,13 @@ class Post(models.Model):
             blank=True  # Make optional at model level
     )
 
+
     class Meta:
-        ordering = ['-published']
+        ordering = ['-publish_date']
         indexes = [
-            models.Index(fields=['-published'])
+            models.Index(fields=['-publish_date'])
         ]
     def __str__(self):
         return self.title
+
+
