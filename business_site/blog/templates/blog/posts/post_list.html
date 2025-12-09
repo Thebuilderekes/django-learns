@@ -1,3 +1,4 @@
+
 {% load static%}
 <!doctype html>
 <html lang="en">
@@ -11,9 +12,12 @@
 
   <body>
     <p>List of published posts</p>
-      {%for post in posts%}
-        <p>{{post}}</p>
+      {%for published_posts in posts%}
+        <p>
+      {{published_posts}}
+<a href="{% url 'blog:post_detail' id=published_posts.id %}">details</a>
+    </p>
+
       {%endfor%}
-    <p> This is the home page  </p>
   </body>
 </html>

@@ -1,5 +1,5 @@
 # Django framework
-Django>=5.2.5
+Django>=6.0
 
 # Environment variable management
 python-decouple>=3.8
