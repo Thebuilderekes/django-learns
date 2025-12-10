@@ -172,3 +172,18 @@ Managers are an ideal place to define complex **data-access methods** that don't
 ### 4\. Handling Cross-Cutting Concerns
 
 Managers can be used for things like adding custom select clauses, annotations, or performing bulk operations specific to a certain data type, ensuring consistency across your application's data layer.
+
+## enhancing blog with social features
+ - We start by creating the `get_asbsolute_url()` method on Post model so we can
+ use the `reverse()` function in the method to make a canonical URL like the
+ ``blog/post/list/2`` in the address bar when you visit using the details link
+ in `post_list.html` page.
+ - We want the canonical link to be SEO friendly so we create a slug-publish
+ date combination so that it is unique for each post.
+ So we alter slug field to only allow to be unique for publish date
+ By doing this we have to alter the path URL to follow this pattern
+
+
+ - Makw sure the arguments of the parameters match the same arrangement in the
+ urls and in the models
+

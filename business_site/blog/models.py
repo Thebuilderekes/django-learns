@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 
@@ -23,16 +24,17 @@ class Post(models.Model):
             help_text="The title of the post",
             db_index=True  # Index for searching  post title
         )
-    slug = models.SlugField(max_length=250)
+
+    publish_date= models.DateTimeField(
+        default=timezone.now,
+        )
+    slug = models.SlugField(max_length=250, unique_for_date='publish_date')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='blog_posts'
     )
 
-    publish_date= models.DateTimeField(
-        default=timezone.now,
-        )
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -56,4 +58,14 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse(
+            'blog:post_detail',
+            args=[
+                self.publish_date.year,
+                self.publish_date.day,
+                self.publish_date.month,
+                self.slug
+            ],
+        )
 

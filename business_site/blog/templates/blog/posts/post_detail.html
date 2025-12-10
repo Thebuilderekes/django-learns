@@ -1,9 +1,7 @@
 {% extends 'blog/base.html'%}
     {%block content%}
-    <p>{{post}} is the published post</p>
-
+    <p>  {{post}}</p>
     <!-- This post appears with title because of the __str__ when you defined the Post model -->
-    <p>This is post detail of {{post}}</p>
     <p>{{post.body}}</p>
     <p>published by {{post.author}}</p>
     {%endblock%}

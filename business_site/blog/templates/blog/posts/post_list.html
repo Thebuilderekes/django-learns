@@ -10,13 +10,14 @@
     <link href="{% static 'blog/style.css' %}" rel="stylesheet" />
   </head>
 
-  <body>
+   <body>
     <p>List of published posts</p>
-      {%for published_posts in posts%}
-        <p>
-      {{published_posts}}
-<a href="{% url 'blog:post_detail' id=published_posts.id %}">details</a>
+      {%for post in published_posts%}
+    <p>
+      {{post}}
     </p>
+  {#<a href="{% url 'blog:post_detail' id=post.id %}">details</a>#}
+    <a href="{{ post.get_absolute_url}}">details</a>
 
       {%endfor%}
   </body>
