@@ -2,7 +2,17 @@ from django.conf import settings
 from django.urls import reverse
 from django.db import models
 from django.utils import timezone
+"""
+Defines the Post model for the blog application, including its database fields
+(title, slug, body, dates), and relationships (author).
 
+It features a custom manager (`published`) to easily query only posts set
+to the 'PUBLISHED' status.
+
+The `get_absolute_url` method generates the canonical URL for a specific post
+using its publish date (year/month/day) and slug, enabling easy linking
+throughout the site.
+"""
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return(super().get_queryset().filter(status=Post.Status.PUBLISHED))
@@ -68,4 +78,5 @@ class Post(models.Model):
                 self.slug
             ],
         )
+
 

@@ -3,5 +3,5 @@
     <p>  {{post}}</p>
     <!-- This post appears with title because of the __str__ when you defined the Post model -->
     <p>{{post.body}}</p>
-    <p>published by {{post.author}}</p>
-    {%endblock%}
+    <p class="italics-text">published by {{post.author}}</p>
+  {% endblock %}
