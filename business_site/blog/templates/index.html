@@ -1,19 +1,8 @@
+{% extends "./blog/base.html"%}
 {% load static%}
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>blog | home</title>
-    <link href="{% static 'main.css' %}" rel="stylesheet" />
-    <link href="{% static 'blog/style.css' %}" rel="stylesheet" />
-  </head>
 
-  <body>
-    <p>List of published posts</p>
-      {%for post in posts%}
-        <p>{{post}}</p>
-      {%endfor%}
-    <p> This is the home page  </p>
-  </body>
-</html>
+{% block content%}
+
+  <h1>This is the home page of the blog app</h1>
+
+{% endblock content%}

@@ -1,15 +1,19 @@
-{% extends 'blog/base.html'%}
-
+{% extends 'blog/base.html' %}
 {% block content %}
+    <h1>Blog Posts</h1>
     <p>List of published posts</p>
-      {%for post in posts%}
-    <p>
-      {{post}}
-    </p>
-  {#<a href="{% url 'blog:post_detail' id=post.id %}">details</a>#}
-    <a href="{{post.get_absolute_url}}">details</a>
+    <section class="flex">
+        {% for post in posts %}
+            <h2>
+                {{ post }}
+            <h2>
+                    {#<a href="{% url 'blog:post_detail' id=post.id %}">details</a>#}
+            <a href="{{ post.get_absolute_url }}">Read more...</a>
+            <p>
+              <a href="{% url "blog:post_share" post.id %}">share this post</a>
 
-
-      {%endfor%}
-    {%include '../pagination.html' with page=posts%}
-  {% endblock %}
+            </p>
+        {% endfor %}
+  </section>
+{% include '../pagination.html' with page=page_obj %}
+{% endblock %}

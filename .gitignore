@@ -11,7 +11,9 @@ __pycache__/
 .venv/
 venv/
 env/
-
+# Environment variables - Accounts for nested files
+**/.env
+**/.env.*
 # Django stuff:
 *.sqbpro
 *.log

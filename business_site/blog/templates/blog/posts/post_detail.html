@@ -1,7 +1,11 @@
 {% extends 'blog/base.html'%}
     {%block content%}
-    <p>  {{post}}</p>
+  <section class="blog center-text">
+
+    <h2>  {{post}}</h2>
     <!-- This post appears with title because of the __str__ when you defined the Post model -->
-    <p>{{post.body}}</p>
+    <p>{{post.body}} lore </p>
     <p class="italics-text">published by {{post.author}}</p>
+
+  </section>
   {% endblock %}

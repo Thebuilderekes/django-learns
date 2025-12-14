@@ -205,6 +205,8 @@ use the `reverse()` function in the method to make a canonical URL like the
 combination so that it is unique for each post. So we alter slug field to only
 allow to be unique for publish date By doing this we have to alter the path URL
 to follow this pattern
+**NOTE** Watch how the ``get_asbsolute_url`` method interacts with the body of
+the `PostDetailView`
 
 ## NOTE
 - Make sure the arguments of the parameters match the same arrangement in the
@@ -231,4 +233,13 @@ essential attributes and methods for navigation links, such as `has_next``,
 ## Adding exceptions to pagination
 You have access to `EmptyPage` exception with `PageNotAnInteger` exception among
 others.
+
+## Using class based views
+use `page=page_obj` as value for the pagination include tag because template comes
+with it to point to what is needed when using class based view
+
+## Setting up forms for message sending using email
+- Successfully hooked up gmail email sending by setting up app password
+
+
 

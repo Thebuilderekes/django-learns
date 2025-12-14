@@ -1,10 +1,14 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from . import views
-app_name = 'blog'
+
+app_name = "blog"
 
 urlpatterns = [
-    path("posts/list/", views.post_list, name='post_list' ),
-        path('posts/<int:year>/<int:day>/<int:month>/<slug:post>/', views.post_detail, name='post_detail'),
-    path("about/", TemplateView.as_view(template_name='index.html'),  name='about' ),
+    path("posts/", views.PostListView.as_view(), name="post_list"),
+    path("posts/<int:post_id>/share/", views.post_share, name = "post_share"),
+    path(
+        "posts/<int:year>/<int:day>/<int:month>/<slug:post>/",
+        views.PostDetailView.as_view(),
+        name="post_detail",
+    ),
 ]
