@@ -6,3 +6,6 @@ for post in post_queryset:
     print(f"Published Date: {post.publish_date}")
     print(f"Author ID: {post.author_id}")
     print("-" * 20)
+
+
+

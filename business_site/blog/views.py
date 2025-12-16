@@ -44,7 +44,6 @@ class PostDetailView(DetailView):
         )
 
         # Add the original function's print statement (optional)
-        print("this is post", post)
 
         # NOTE: If you needed to override the body with a fixed string
         # as noted in your docstring, you would do it here before returning:
@@ -88,7 +87,6 @@ def post_share(request, post_id):
 
             # Build the URL for the post (Assuming canonical URL is used)
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            print(post_url)
 
             # Compose the email
             subject = f"{cd['name']} recommends you read {post.title}"

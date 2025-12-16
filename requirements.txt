@@ -11,5 +11,31 @@ python-decouple>=3.8
 # psycopg2-binary>=2.9.9
 
 # Additional useful packages for Django
+#django-browser-reload
+#django-watchfiles
+# set them in midlleware and installed apps in settings
+
+# Add to INSTALLED_APPS:
+# Ensure django.contrib.staticfiles is already in your INSTALLED_APPS, then add "django_browser_reload" in your settings.py file:
+# python
+#
+# INSTALLED_APPS = [
+#     # ...
+#     "django.contrib.staticfiles",
+#     "django_browser_reload",
+#     # ...
+# ]
+#
+# Include app URLs:
+# Add the package's URLs to your project's root urls.py file:
+# python
+#
+# from django.urls import include, path
+#
+# urlpatterns = [
+#     # ...
+#     path("__reload__/", include("django_browser_reload.urls")),
+# ]
+#
 # django-environ>=0.11.2
 # pillow>=10.0.0  # for ImageField support

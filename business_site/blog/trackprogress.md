@@ -227,7 +227,7 @@ minimal code.
 essential attributes and methods for navigation links, such as `has_next``,
 `has_previous``, ``next_page_number``, ``previous_page_number``, and
 ``paginator.num_pages``.
-- Error Handling: It includes built-in exceptions like `EmptyPage` and
+- Error Handli g: It includes built-in exceptions like `EmptyPage` and
 `PageNotAnInteger` to handle cases where a user requests an invalid page.
 
 ## Adding exceptions to pagination
@@ -239,7 +239,13 @@ use `page=page_obj` as value for the pagination include tag because template com
 with it to point to what is needed when using class based view
 
 ## Setting up forms for message sending using email
-- Successfully hooked up gmail email sending by setting up app password
+The email config has been made to work with gmail.
+
+
+## Setting up Comment system
+- Created `Comment` model
+- Created `Comment` model admin
+- Created a `Comment` form that matches the `Comment` model
 
 
 
