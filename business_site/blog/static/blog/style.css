@@ -1,7 +1,10 @@
-*{
+*,
+a {
   padding: 0;
   margin: 0;
-box-sizing: border-box;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
 }
 
 html {
@@ -10,9 +13,37 @@ html {
 }
 
 
-body{
+body {
   width: 100%;
   background-color: skyblue;
+}
+
+h1,h2,h3{
+  text-align: center;
+}
+
+.my-4 {
+  margin: 16px 0;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+
+.flex.center {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column; ``
+}
+
+
+.text-center {
+  text-align: center;
 }
 
 a img {
@@ -20,12 +51,35 @@ a img {
   height: 50px;
 }
 
-section {
-  margin: 10px;
-
+p {
+  font-weight: 400;
 }
 
-form{
+section.blog-posts {
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  background-color: burlywood;
+}
+
+
+.section.blog-post-container {
+ display: flex;
+}
+
+.card {
+  border: 2px solid black;
+}
+
+.card a {
+  border: 1px solid blueviolet;
+  padding: 5px 10px;
+  background-color: blueviolet;
+  color: white;
+}
+
+form {
   max-width: 300px;
 }
 
@@ -40,7 +94,7 @@ input {
   height: 30px;
 }
 
-button[type="submit"]{
+button[type="submit"] {
   border: none;
   color: #fff;
   background-color: darkmagenta;
@@ -48,17 +102,16 @@ button[type="submit"]{
   font-size: 18px;
 }
 
-button[type="submit"]:hover{
+button[type="submit"]:hover {
   background-color: magenta;
 
-
-.center-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
+  .center-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-.italics-text{
-  font-style: italic;
-  font-weight: 600;
-}
+  .italics-text {
+    font-style: italic;
+  }

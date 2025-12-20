@@ -1,9 +1,10 @@
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView, DetailView
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from blog.models import Post
 from business_site.settings import POSTS_PER_PAGE
-from .forms import EmailPostForm
+from .forms import CommentForm, EmailPostForm
 
 
 class PostListView(ListView):
@@ -12,43 +13,34 @@ class PostListView(ListView):
     paginate_by = POSTS_PER_PAGE
     template_name = "blog/posts/post_list.html"
 
-class PostDetailView(DetailView):
-    """
-    Handles requests for a single, specific blog post using DetailView.
-    It retrieves the Post object from the database using year, month, day,
-    and slug captured from the URL.
-    """
-    # 1. Specify the model to work with
-    model = Post
-    # 2. Specify the template (Django defaults to 'blog/post_detail.html')
-    # template_name = 'blog/post_detail.html'
-    template_name = 'blog/posts/post_detail.html' # <--- Django uses this
-    # 3. Specify the context object name (Django defaults to 'post' or 'object')
-    # context_object_name = 'post'
-    # 4. Override get_object to handle the complex lookup
-    def get_object(self, queryset=None):
-        # Retrieve the URL parameters passed from the URLconf
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        post_slug = self.kwargs.get('post')  # The 'post' part is the slug
 
-        # Use get_object_or_404 with the exact same filtering logic
-        # as your original function-based view
-        post = get_object_or_404(
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blog/posts/post_detail.html'
+    context_object_name = 'post'  # This ensures the template uses 'post'
+
+    def get_object(self, queryset=None):
+        # Only return the Post object here
+        return get_object_or_404(
             Post,
-            publish_date__year=year,
-            publish_date__month=month,
-            publish_date__day=day,
-            slug=post_slug,
+            publish_date__year=self.kwargs.get('year'),
+            publish_date__month=self.kwargs.get('month'),
+            publish_date__day=self.kwargs.get('day'),
+            slug=self.kwargs.get('post'),
         )
 
-        # Add the original function's print statement (optional)
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super().get_context_data(**kwargs)
 
-        # NOTE: If you needed to override the body with a fixed string
-        # as noted in your docstring, you would do it here before returning:
-        # post.body = "A fixed body string for demonstration."
-        return post
+        # Add your extra data to the context
+        post = self.object  # The object returned by get_object()
+        context['comments'] = post.comments.filter(active=True)
+        context['form'] = CommentForm()
+
+        return context
+    # 4. Override get_object to handle the complex lookup
+
 
 
 def post_share(request, post_id):
@@ -120,3 +112,27 @@ def post_share(request, post_id):
             'sent': sent # Pass 'sent' status to the template
         }
     )
+
+@require_POST
+def post_comment(request, post_id):
+
+    post = get_object_or_404(
+        Post,
+        id=post_id,
+        status=Post.Status.PUBLISHED # Ensure only published posts can be shared
+    )
+    comment = None
+    form  = CommentForm(data=request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.save()
+        return render(
+            request,
+            'blog/posts/post_comment.html',
+            {
+                'post': post,
+                'form': form,
+                'comment': comment
+            }
+        )

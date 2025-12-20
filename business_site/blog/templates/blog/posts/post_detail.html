@@ -1,11 +1,27 @@
-{% extends 'blog/base.html'%}
-    {%block content%}
-  <section class="blog center-text">
-
-    <h2>  {{post}}</h2>
-    <!-- This post appears with title because of the __str__ when you defined the Post model -->
-    <p>{{post.body}} lore </p>
-    <p class="italics-text">published by {{post.author}}</p>
-
+{% extends 'blog/base.html' %}
+{% block content %}
+    <section class="blog-post-container center-items">
+      <article class="blog-post">
+        <h2>{{ post }}</h2>
+        {# The {{post}} appears with title because of the __str__ when you defined the Post model #}
+        <p>{{ post.body }}</p>
+        <p class="italics-text center-items">published by {{ post.author }}</p>
+      </article>
+        {% with comments.count as total_comments %}
+            <h3>
+                {{ total_comments }} comment{{total_comments|pluralize}}
+           </h3>
+        {% endwith %}
+        {% for comment in comments %}
+            <div class="comment">
+              <p class="info">
+                Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created}}
+              </p>
+              <p> {{ comment.body|linebreaks }}</p>
+            </div>
+        {% empty %}
+            <p>There are no comments.</p>
+        {% endfor %}
+       {% include "blog/posts/includes/comment_form.html" %}
   </section>
-  {% endblock %}
+{% endblock %}

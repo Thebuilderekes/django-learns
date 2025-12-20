@@ -246,6 +246,15 @@ The email config has been made to work with gmail.
 - Created `Comment` model
 - Created `Comment` model admin
 - Created a `Comment` form that matches the `Comment` model
+- Create a ``post_comment`` view
 
+In this view, we have implemented the following actions:
+1. We retrieve a published post by its id using the get_object_or_404() shortcut.
 
+2. We define a comment variable with the initial value None. This variable will be used to store the comment object when it is created.
 
+3. We instantiate the form using the submitted POST data and validate it using the is_valid() method. If the form is invalid, the template is rendered with the validation errors.
+
+4. If the form is valid, we create a new Comment object by calling the form’s save() method and assign it to the comment variable, as follows: comment = form.save(commit=False)
+
+5. The save() method creates an instance of the model that the form is linked to and saves it to the database. If you call it using commit=False, the model instance is created but not saved to the database. This allows us to modify the object before finally saving it. The save() method is available for ModelForm but not for Form instances since they are not linked to any model.
