@@ -1,0 +1,9 @@
+Django>=6.0
+
+# Environment variable management
+python-decouple>=3.8
+django-taggit==5.0.1
+# Additional useful packages for Django
+#django-browser-reload to auto reload browser to sync with changes
+#django-watchfiles
+# set them in midlleware and installed apps in settings

@@ -13,14 +13,17 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +3 blog/admin.py
-badd +1 blog/templates/blog/posts/post_list.html
-badd +1 blog/templates/blog/posts/post_detail.html
-badd +0 blog/models.py
+badd +1 .
+badd +6 blog/templates/blog/pagination.html
+badd +9 blog/templates/blog/posts/post_comment.html
+badd +21 blog/templates/blog/posts/post_list.html
+badd +85 blog/views.py
+badd +22 blog/templates/blog/posts/post_detail.html
+badd +38 business_site/settings.py
 argglobal
 %argdel
-$argadd NvimTree_1
-edit blog/models.py
+$argadd .
+edit business_site/settings.py
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -42,7 +45,7 @@ exe 'vert 2resize ' . ((&columns * 91 + 61) / 122)
 argglobal
 enew
 file NvimTree_1
-balt blog/templates/blog/posts/post_detail.html
+balt business_site/settings.py
 setlocal foldmethod=manual
 setlocal foldexpr=0
 setlocal foldmarker={{{,}}}
@@ -53,7 +56,7 @@ setlocal foldnestmax=20
 setlocal nofoldenable
 wincmd w
 argglobal
-balt blog/admin.py
+balt blog/templates/blog/posts/post_comment.html
 setlocal foldmethod=manual
 setlocal foldexpr=0
 setlocal foldmarker={{{,}}}
@@ -64,11 +67,11 @@ setlocal foldnestmax=20
 setlocal foldenable
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 10) / 20)
+let s:l = 39 - ((19 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
+keepjumps 39
 normal! 0
 wincmd w
 2wincmd w

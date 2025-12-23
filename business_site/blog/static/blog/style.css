@@ -30,6 +30,11 @@ h1,h2,h3{
   gap: 16px;
 }
 
+.alert {
+  color: green;
+  font-weight: 600;
+  font-style: italic;
+}
 
 .flex.center {
   display: flex;
@@ -75,6 +80,12 @@ section.blog-posts {
 .card a {
   border: 1px solid blueviolet;
   padding: 5px 10px;
+  background-color: blueviolet;
+  color: white;
+}
+
+.tag span {
+  border: 1px solid black;
   background-color: blueviolet;
   color: white;
 }

@@ -258,3 +258,13 @@ In this view, we have implemented the following actions:
 4. If the form is valid, we create a new Comment object by calling the form’s save() method and assign it to the comment variable, as follows: comment = form.save(commit=False)
 
 5. The save() method creates an instance of the model that the form is linked to and saves it to the database. If you call it using commit=False, the model instance is created but not saved to the database. This allows us to modify the object before finally saving it. The save() method is available for ModelForm but not for Form instances since they are not linked to any model.
+
+
+
+## Setting up tagging for blog posts
+- install django-taggit
+- By adding django-taggit, you can now add a TaggableManager to your Post model. This will allow you to:
+ - Tag posts (e.g., "Python", "Django", "Tutorial").
+ - Filter posts by tags.
+ - Show "Similar Posts" based on shared tags.
+
