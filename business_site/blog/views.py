@@ -65,7 +65,6 @@ def post_share(request, post_id):
         id=post_id,
         status=Post.Status.PUBLISHED
     )
-    join_post_tags = post.tags|join:","
     sent = False
 
     if request.method == 'POST':
@@ -92,7 +91,6 @@ def post_share(request, post_id):
         {
             'post': post,
             'form': form,
-            'join_post_tags': join
             'sent': sent,
             'title': f"Recommend \"{post.title}\" by sharing to email"
         }
