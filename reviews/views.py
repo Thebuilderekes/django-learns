@@ -23,7 +23,7 @@ def home(request):
             # Retrieve total_sum calculated in form.clean()
             total_sum = form.cleaned_data.get("total_sum")
     else:
-        print("form errors", form.errors)
+        form = OrderForm()
 
     context = {
         "message": welcome_message,

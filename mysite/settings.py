@@ -12,6 +12,7 @@ except ImportError:
         value = os.getenv(key, default)
         if cast and value:
             return cast(value)
+        print("this is type of value", type(value))
         return value
 
     class Csv:

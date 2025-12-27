@@ -96,9 +96,19 @@ source venv/bin/activate
 
 # Run server
 python manage.py runserver
+``````
 
-# Access at: http://127.0.0.1:8000/
-```
+
+### Development Checklist
+- [ ] To use `{{MEDIA_URL}}` in your files to be able to load media in
+templates, Make sure the following is present in the context_processor list in
+the templates ``"django.template.context_processors.media"``.
+- [ ] Make sure the template DIR is set to enable templates load successfully
+``'DIRS': [os.path.join(BASE_DIR, 'app_name', 'templates')],`` `import os` to make
+it work.
+- [ ] Make sure you are properly including the ``app_name.urls`` path in the project
+urlpattern path of your project settings folder `urls.py` file
+
 
 ### Production Checklist
 - [ ] Set `DEBUG=False` in `.env`
@@ -112,13 +122,14 @@ python manage.py runserver
 
 ---
 
+
 ## 📁 Project Structure
 
 ```
 bookr/
 ├── venv/                  # Virtual environment (not in git)
 ├── mysite/                # Django project settings
-├── reviews/               # Main app
+├── app_name/               # Main app
 ├── .env                   # Environment variables (not in git)
 ├── .env.example           # Template for environment variables
 ├── requirements.txt       # Python dependencies
