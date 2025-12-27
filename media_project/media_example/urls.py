@@ -1,12 +1,11 @@
-from django.contrib import admin
-from django.urls import include, path
-from django.views.generic import TemplateView
-from . import views
+# from django.contrib import admin
+from django.urls import path
+from .views import index, media_example, file_upload_form, success
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="index.html"), name="index"),
-    path("admin/", admin.site.urls),
-    path("", views.index, name="index"),
-    path("media_project/", include("media_project.urls", namespace='media_project')),
+    path("", index, name="index"),
+    path("media_upload/", media_example, name="media_upload"),
+    path("create_upload/", file_upload_form, name="create_upload"),
+    path('success/', success, name='success'),
 
 ]

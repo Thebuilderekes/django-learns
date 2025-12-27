@@ -20,11 +20,10 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
-app_name = "media_project"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-
+    path('', include('media_example.urls')), # This connects your app
 ]
 
 
