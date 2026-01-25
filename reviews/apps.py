@@ -1,10 +1,10 @@
 from django.apps import AppConfig
-from django.contrib.admin.apps import AdminConfig
+# from django.contrib.admin.apps import AdminConfig
 
 
 class ReviewsConfig(AppConfig):
     name = "reviews"
 
 
-class ReviewsAdminConfig(AdminConfig):
-    default_site = "reviews.admin.BookRevAdminSite"
+# class ReviewsAdminConfig(AdminConfig):
+#     default_site = "reviews.admin.BookRevAdminSite"

@@ -16,16 +16,26 @@ Including another URLconf
 """
 
 from django.urls import include, path
-from reviews.admin import admin_site
-
+# from reviews.admin import admin_site
+from bookr_admin.admin import admin_site
+from django.conf import settings
+from django.conf.urls.static import static
+from reviews.views import profile
 # NOte that you can import reviews.views and
 # individually use each url directly in this file but for
 # organization the entire reviews url is included in the file
 urlpatterns = [
+path('accounts/',
+     include(('django.contrib.auth.urls', 'accounts'))
+    ),
     path('myadmin/', admin_site.urls),
+    path("accounts/profile", profile , name="profile"),
     path("", include("reviews.urls")),
     # This maps to reviews/urls.py to get to the view.py
     # that accesses the index function to then render the view in
     # the browser at localhost:8000 path. To get it to render at /review
     # simply change the path to "reviewsa"
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

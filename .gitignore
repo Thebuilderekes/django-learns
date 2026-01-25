@@ -23,7 +23,7 @@ env/
 db.sqlite3
 
 # Media / static files
-/media/
+# /media/
 /staticfiles/
 
 # Environment variables

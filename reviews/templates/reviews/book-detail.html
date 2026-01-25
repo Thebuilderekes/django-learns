@@ -1,10 +1,22 @@
-{% extends 'reviews/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <div class="book-detail-container">
   <header class="detail-header">
     <h1 class="book-detail-title">{{ book.title }}</h1>
+  {%if book.cover%}
+      <img src="{{ book.cover.url }}" alt="{{book.title}} cover">
+      {%else%}
+      <p>This book doesn't have a cover image</p>
+      {%endif%}
+{% if user.is_staff %}
+        <div class="admin-actions" style="margin-top: 10px;">
+            <a href="{% url 'book_media' book.pk %}" class="btn btn-secondary">
+                Edit Book Cover
+            </a>
+        </div>
+    {% endif %}
     <h3 class="subtitle">{{ title }}</h3>
   </header>
 
@@ -20,7 +32,6 @@
       </div>
     </dl>
   </section>
-
   {% if not reviews %}
   <hr class="separator" />
   <div class="no-reviews-message">
@@ -36,39 +47,106 @@
   </section>
 
   <hr class="separator" />
+<section class="add-review-section">
+    {#    {% if user.is_authenticated %}#}
+      <button id="toggleReviewBtn" class="btn btn-primary">Write a Review</button>
+
+      <div id="reviewFormContainer" style="display: none; margin-top: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h3>Your Review</h3>
+        <form method="post">
+          {% csrf_token %}
+<div class="form-group" style="margin-bottom: 15px;">
+        <label>Rating:</label>
+        {{ form.rating }}
+    </div>
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label>Content:</label>
+        {{ form.content }}
+    </div>
+          <button type="submit" class="btn btn-success">Submit Review</button>
+          <button type="button" id="cancelReviewBtn" class="btn btn-link">Cancel</button>
+        </form>
+      </div>
+    {#  {% else %}#}
+    <p><a href="{#{% url 'login' %}#} #">Log in</a> to write a review.</p>
+    {#{% endif %}#}
+{% if messages %}
+  <div id="messageModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal()">&times;</span>
+      {% for message in messages %}
+        <div class="alert-green alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+      <button class="btn-confirm" onclick="closeModal()">OK</button>
+    </div>
+  </div>
+{% endif %}
+  </section>
 
   <section class="review-comments">
-    <h3>Review Comments ({{ reviews.count }})</h3>
-    <ul class="review-list">
-      {% for review in reviews %}
-      <li class="review-item">
-        <div class="review-content">
-          <p class="review-text">
-            <span class="review-label">Comment:</span>
-            {{ review.content }}
-          </p>
-        </div>
+    <h3>Reviews ({{ reviews.count }})</h3>
+  <ul class="review-list">
+    {% for review in reviews %}
+    <li class="review-item">
+      <div class="review-content">
+        <p class="review-text">
+          <span class="review-label">Comment:</span>
+          {{ review.content }}
+        </p>
 
-        <div class="review-footer">
-          <div class="review-dates">
-            <small class="timestamp"
-              >Created on:
-              {{ review.date_created|date:"M d, Y H:i" }}</small
-            >
-            <small class="timestamp"
-              >Modified on:
-              {{ review.date_edited|date:"M d, Y H:i" }}</small
-            >
-          </div>
-          <span class="review-rating-pill"
-            >⭐
-            {{ review.rating }}</span
-          >
-        </div>
+        {% if user.is_authenticated %}
+          {% if user == review.creator or user.is_staff %}
+    <div style="margin-top: 10px;">
+                        <a href="{% url 'review_edit' book.pk review.pk %}"
+                           style="font-size: 0.8em; color: #007bff; text-decoration: none; border: 1px solid #007bff; padding: 2px 8px; border-radius: 4px;">
+                           Edit Review
+                        </a>
+                </div>
+          {% endif %}
+        {% endif %}
+      </div>
       </li>
-      {% endfor %}
-    </ul>
+    {% endfor %}
+  </ul>
   </section>
   {% endif %}
 </div>
 {% endblock %}
+
+{% block script %}
+
+  const btn = document.getElementById('toggleReviewBtn');
+  const formContainer = document.getElementById('reviewFormContainer');
+  const cancelBtn = document.getElementById('cancelReviewBtn');
+
+  if (btn) {
+    btn.onclick = function() {
+      formContainer.style.display = 'block';
+      btn.style.display = 'none';
+    };
+  }
+
+  if (cancelBtn) {
+    cancelBtn.onclick = function() {
+      formContainer.style.display = 'none';
+      btn.style.display = 'block';
+    };
+  }
+ function closeModal() {
+        const modal = document.getElementById('messageModal');
+        if (modal) {
+          modal.style.display = 'none';
+        }
+      }
+
+      // Optional: Close if the user clicks anywhere outside the white box
+      window.onclick = function(event) {
+        const modal = document.getElementById('messageModal');
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      }
+{% endblock script %}

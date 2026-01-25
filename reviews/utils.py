@@ -47,7 +47,6 @@ def create_edit_view(Model, Form, template_name, detail_url_name, obj_name_field
         }
 
         return render(request, template_name, context)
-
     return view_func
 
 

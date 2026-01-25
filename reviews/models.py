@@ -1,8 +1,14 @@
 from django.conf import settings
 from django.db import models
 
+class BaseModel(models.Model):
+    # Explicitly define the manager
+    objects = models.Manager()
 
-class Publisher(models.Model):
+    class Meta:
+        abstract = True  # This ensures Django doesn't create a table for this class
+
+class Publisher(BaseModel):
     """A company that publishes books."""
 
     name = models.CharField(
@@ -13,17 +19,17 @@ class Publisher(models.Model):
     website = models.URLField(help_text="The publisher's website")
     email = models.EmailField(help_text="The publisher's email")
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         ordering = ['name']
         indexes = [
             models.Index(fields=['name']),
         ]
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
-class Contributor(models.Model):
+class Contributor(BaseModel):
     """A contributor to a book, e.g author, editor, co-author"""
 
     first_names = models.CharField(
@@ -37,7 +43,8 @@ class Contributor(models.Model):
     )
     email = models.EmailField(help_text="The contributor's email")
     id = models.AutoField(primary_key=True)
-    class Meta:
+
+    class Meta(BaseModel.Meta):
         ordering = ['last_names', 'first_names']
         indexes = [
             models.Index(fields=['last_names', 'first_names']),
@@ -52,13 +59,18 @@ class Contributor(models.Model):
         return f"{self.first_names} {self.last_names}"
 
 
-class Book(models.Model):
+class Book(BaseModel):
     """
     Represents a book with its publication details.
 
     Links to Publisher (one-to-many) and Contributors (many-to-many).
     """
-
+    cover = models.ImageField(
+            upload_to='book_covers/',
+            blank=True,
+            null=True,
+            verbose_name="Book Cover"
+        )
     title = models.CharField(
         max_length=70,  # Increased for longer titles
         help_text="The title of the book",
@@ -85,7 +97,7 @@ class Book(models.Model):
         related_name='books'  # Access contributor's books via contributor.books.all()
     )
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         ordering = ['-publication_date', 'title']
         indexes = [
             models.Index(fields=['title', 'publication_date']),
@@ -93,7 +105,7 @@ class Book(models.Model):
         ]
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     def get_average_rating(self):
         """Calculate the average rating for this book."""
@@ -102,7 +114,7 @@ class Book(models.Model):
         return result['avg_rating'] or 0
 
 
-class BookContributor(models.Model):
+class BookContributor(BaseModel):
     """
     A model that links a Book to a Contributor, specifying the
     contributor's role.
@@ -133,7 +145,7 @@ class BookContributor(models.Model):
         max_length=20,
     )
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         constraints = [
             models.UniqueConstraint(
                 fields=['book', 'contributor', 'role'],
@@ -148,7 +160,7 @@ class BookContributor(models.Model):
     def __str__(self):
         return f"{self.contributor.full_name} - {self.get_role_display()} - {self.book.title}" #type: ignore[attr-defined]  # type: ignore[attr-defined]
 
-class Review(models.Model):
+class Review(BaseModel):
     """
     Represents a single user's review and rating for a specific book.
 
@@ -185,7 +197,7 @@ class Review(models.Model):
         help_text="Date and time the review was last edited"
     )
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         ordering = ['-date_created']
         constraints = [
             models.UniqueConstraint(
@@ -200,7 +212,7 @@ class Review(models.Model):
         ]
 
     def __str__(self):
-        return f"Review of '{self.book.title}' by {self.creator.username}"
+        return f"Review of '{self.book.title}' by {self.creator}"
 
     def save(self, *args, **kwargs):
         """Validate rating before saving."""

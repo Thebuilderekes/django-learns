@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="text-center">Update Media for {{ instance.title }}</h2>
+
+<form class="flex-col-center" method="post" {% if is_file_upload %}enctype="multipart/form-data"{% endif %}>
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <a class="cancel-btn" href="{% url 'book_detail' instance.pk %}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

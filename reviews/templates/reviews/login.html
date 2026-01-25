@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/login.css' %}">
+
+<div id="content-main" style="margin: 0 auto; max-width: 400px; padding-top: 50px;">
+    <div class="login-container">
+        <h1 style="text-align: center; color: #447e9b;">Bookr Login</h1>
+
+        {% if form.errors %}
+            <p class="errornote" style="color: #ba2121; background: #fff1f1; padding: 10px; border: 1px solid #ba2121;">
+                Your username and password didn't match. Please try again.
+            </p>
+        {% endif %}
+
+        <form action="{{ app_path }}" method="post" id="login-form">
+            {% csrf_token %}
+            <div class="form-row" style="margin-bottom: 15px;">
+                <label for="id_username" class="required">Username:</label>
+                {{ form.username }}
+            </div>
+            <div class="form-row" style="margin-bottom: 15px;">
+                <label for="id_password" class="required">Password:</label>
+                {{ form.password }}
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+
+            <div class="submit-row" style="text-align: right; background: #f8f8f8; padding: 10px; border-top: 1px solid #eee;">
+                <input type="submit" value="Log in" class="btn btn-primary" style="background: #417690; color: white; border: none; padding: 10px 20px; cursor: pointer;">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

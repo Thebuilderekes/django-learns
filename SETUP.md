@@ -100,6 +100,9 @@ python manage.py runserver
 
 
 ### Development Checklist
+- [ ] `python -m  pip install Django-browser-reload`
+add `"django_browser_reload.middleware.BrowserReloadMiddleware",` to MIDDLEWARE
+in ``settings.py``
 - [ ] To use `{{MEDIA_URL}}` in your files to be able to load media in
 templates, Make sure the following is present in the context_processor list in
 the templates ``"django.template.context_processors.media"``.

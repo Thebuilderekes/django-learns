@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="edit-container" style="max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+    <header class="edit-header" style="margin-bottom: 20px;">
+        <h2>Edit Your Review</h2>
+        <p class="text-muted">For the book: <strong>{{ book.title }}</strong></p>
+    </header>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-body">
+            {{ form.as_p }}
+        </div>
+
+        <div class="form-actions" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{% url 'book_detail' book.pk %}" class="btn btn-success" style="margin-left: 10px; text-decoration: none; color: #666;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

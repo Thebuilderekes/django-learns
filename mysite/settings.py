@@ -52,9 +52,11 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv(
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
+    "django_browser_reload",
     'django_extensions',
+    # "django.contrib.admin",
+    "bookr_admin.apps.BookrAdminConfig",
+     "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -77,7 +79,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [os.path.join(BASE_DIR, "templates"), os.path.join(BASE_DIR, "templates/registration/")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -173,3 +175,8 @@ LOGGING = {
         },
     },
 }
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+

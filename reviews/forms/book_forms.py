@@ -6,21 +6,18 @@ from reviews.models import Book
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ("title", "isbn", "publication_date")
-
+        fields = ('title', 'publication_date', 'isbn', 'cover')
 
 class SearchForm(forms.Form):
     SEARCH_TYPE = (
         ("title", "Title"),
-        ("contributor", "Contributor Name"),
-        ("publisher", "Book Name"),
-        ("isbn", "ISBN (Exact Match)"),  # Added ISBN for precise search
+        ("publisher", "Publisher"),
     )
 
     search_book_by = forms.MultipleChoiceField(
         choices=SEARCH_TYPE,
         required=True,  # Explicitly make this field mandatory
-        error_messages={"required": "Please select at least one field to search by."},
+        error_messages={"required": ""},
         widget=forms.CheckboxSelectMultiple,
         label="Search within:",  # Added label for clarity
     )
@@ -35,5 +32,9 @@ class SearchForm(forms.Form):
         ),
     )
 
+class BookMediaForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['cover']
 
 

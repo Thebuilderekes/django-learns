@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block style%}
+
+.flexrow {
+padding: 20px 30px;
+display: flex;
+justify-content: space-between;
+border: 2px black;
+}
+
+.profile, .infocell {
+width: 50%;
+}
+
+
+.infocell {
+border: 1px solid whitesmoke;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+
+.viewed-book {
+color: var(--white);
+text-decoration: underline;
+}
+{% endblock style %}
+{% block content %}
+<div class="flexrow">
+  <div class="profile">
+  <h2>Profile</h2>
+  <p>
+    Name :    {{request.user.first_names}} <br> {{request.user.last_names}}
+  Username:    {{request.user.username}}
+  </p>
+  <p>
+    Email: {{request.user.email}}<br>
+    Date joined  : {{request.user.date_joined}}<br>
+    Last login: {{request.user.last_login}}<br>
+  </p>
+  </div>
+   <div class="infocell" >
+      <h2>Viewed Books</h2>
+      <p>
+      {% for book_id, book_title in request.session.viewed_books %}
+      <a class="viewed-book" href="/books/{{ book_id }}">{{ book_title }}</a><br>
+      {% empty %}
+            No recently viewed books found.
+      {% endfor %}
+      </p>
+    </div>
+</div>
+{% endblock content %}

@@ -2,6 +2,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+     text-decoration: none;
         }
 
         :root {
@@ -74,6 +75,12 @@
             color: var(--primary);
         }
 
+        .nav-links a.log:hover {
+
+            color: var(--white);
+
+   }
+
         .btn {
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
@@ -94,6 +101,7 @@
             background: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: var(--shadow);
+            color: var(--white);
         }
 
         .btn-outline {

@@ -1,4 +1,4 @@
-{% extends 'reviews/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -12,9 +12,14 @@
   {% for item in book_list %}
   <div class="book-card">
     <div class="card-header">
+      {%if item.book.cover.url%}
+      <img src="{{ item.book.cover.url }}" alt="{{item.book.title}} cover">
+      {%else%}
+      <p>This book doesn't have a cover image</p>
+      {%endif%}
       <h2 class="book-title">{{ item.book.title }}</h2>
       <div class="rating-info">
-        <strong>Average rating:</strong>
+        <strong>Rating:</strong>
         {% if item.book_rating %}
         <span class="rating-value rating-{{ item.book_rating|floatformat:0 }}"
           >{{ item.book_rating|floatformat:1 }}

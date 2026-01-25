@@ -3,6 +3,7 @@
   margin: 0;
   box-sizing: border-box;
   list-style: none;
+  text-decoration: none;
 }
 
 :root {
@@ -12,6 +13,7 @@
   --text-dark: #1f2937;
   --text-light: #6b7280;
   --bg-light: #f9fafb;
+  --bg-red: #ff0000;
   --white: #ffffff;
   --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -32,17 +34,106 @@ h1 {
   margin: 30px 0;
 }
 
+
+
+p, h2{
+  color: var(--white);
+}
+
+.form-row {
+  color: white;
+}
+
 input {
   height: 30px;
 }
 
+
 .white {
   color: var(--white);
 }
-
+.alert {
+  color: green;
+  font-weight: 700;
+}
 .col {
   display: flex;
   flex-direction: column;
+}
+
+.flex-col-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+.cancel-btn {
+  color: var(--white);
+  background: var(--bg-red);
+  padding: 10px 20px;
+  font-weight: 500;
+  border-radius: 8px;
+}
+/* The semi-transparent background */
+
+.modal-overlay {
+  position: fixed;
+  z-index: 9999; /* Sit on top of everything */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Black with opacity */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The white box in the middle */
+.modal-content {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+/* Close icon (X) in the corner */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close-button:hover { color: #333; }
+
+/* Animation for smooth appearance */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Confirm button inside modal */
+.btn-confirm {
+  margin-top: 15px;
+  padding: 8px 25px;
+  background-color: #417690;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .toast-success {

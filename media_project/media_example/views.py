@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.http import HttpResponse
 import os
 from django.conf import settings
 from .models import Hotel
@@ -22,9 +23,10 @@ def media_example(request):
     return render(request, "media_example/media-example.html")
 
 
-from django.http import HttpResponse
 
-def file_upload_form(request):
+def file_upload_form(request, hotel_id):
+
+    hotel = Hotel.objects.get(id=hotel_id)
     if request.method == 'POST':
         form = HotelForm(request.POST, request.FILES)
         if form.is_valid():
@@ -32,7 +34,8 @@ def file_upload_form(request):
             return redirect('success')
     else:
         form = HotelForm()
-    return render(request, 'media_example/template.html', {'form': form})
+    return render(request, 'media_example/template.html', {'form': form, 'hotel': hotel})
 
 def success(request):
     return HttpResponse('Successfully uploaded!')
+
