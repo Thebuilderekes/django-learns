@@ -1,17 +1,16 @@
 ## ch-1
-- Today's exercise is making it so that the `httpResponse` displayed on the page
+- Today's exercise is making it so that the ```httpResponse``` displayed on the page
 is gotten from the search query result.
-- Template directory in settings for allowing templates folder to be read
-- Adding app to installed apps to make sure it is recognized
-- Whitenoise for production file  handling
+- Template directory in settings for allowing templates folder to be read.
+- Adding app to installed apps to make sure it is recognized.
+- Whitenoise for production file  handling.
 
 ## ch-2 Started learning about models and migrations
-- `Makemigration` and `migrate` command after every model creation
+- ``Makemigration`` and ``migrate`` command after every model creation
 - Created models, defined relationships using foreign key and ManytoMany
 relations and migrated them.
 - Migrations can be rolled back using migrate command and setting it to the
-migration code
--
+migration code.
 
 ## ch-3
 - Learned about URL mapping, and how the view works.
@@ -23,8 +22,6 @@ to show what details of the model will be on display in columns while viewing it
 in the admin page. ManytoMany fields cannot be used in list_display.
 - Learned about the various settings that can be applied under a model admin that influences the layout of the model in the admin page.
 - Organized the model Admins into their separate folders for maintainability.
-
-
 
 
 ## ch-5 serving static file
@@ -54,7 +51,14 @@ built-in ``FileField`` and how how to use Pillow library to handled
 
 
 
-## Advances admin - creating custom admin site
+## Advances admin - creating custom admin site and templates
 - We use ``python3 manage.py startapp Bookr_admin`` inside bookr directory to
-create a new app to control our custom bookr admin site class in the admin.py file and redirect out url patterns to it to be our new admin_site
-- I renamed the folder in revies from admin to adminf
+create a new app to control our custom bookr admin site class in the admin.py
+file and redirect out url patterns to it to be our new admin_site.
+- We created a custom `logout.html`` page with the base html
+using `{% extends "admin/base_site.html%}` to keep the layout consistent unless we
+choose to create our own html
+- Customization like these are important especially when you want to give a particular
+page a look and feel that goes with the branding of the website
+continue pg 521
+

@@ -13,3 +13,8 @@ This class is used to define the application that should be used as a default ad
 and also to override the default behavior of the Django admin site.
 - We include the `"bookr_admin.apps.BookrAdminConfig",` into ``settings.py file``
 under installed apps
+
+## Customizing templates
+`{% extends "admin/base_site.html" %}` is what maintains the base layout of our
+dashboard so all our templates that we are going to be Customizing has to have this at the top
+

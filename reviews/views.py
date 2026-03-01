@@ -42,7 +42,7 @@ def is_authenticated_staff_user(user):
     return user.is_authenticated and user.is_staff
 
 def login(request):
-    return render(request, "./templates/registration/login.html")
+    return render(request, "registration/login.html")
 
 def profile(request):
     return render(request, "reviews/profile.html")
