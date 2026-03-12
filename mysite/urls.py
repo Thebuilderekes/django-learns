@@ -31,6 +31,7 @@ path('accounts/',
     path('myadmin/', admin_site.urls),
     path("accounts/profile", profile , name="profile"),
     path("", include("reviews.urls")),
+    path('book_management/', include('book_management.urls'))
     # This maps to reviews/urls.py to get to the view.py
     # that accesses the index function to then render the view in
     # the browser at localhost:8000 path. To get it to render at /review

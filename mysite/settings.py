@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     # "django.contrib.admin",
     "bookr_admin.apps.BookrAdminConfig",
      "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
+     "book_management",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -79,7 +80,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # "DIRS": [os.path.join(BASE_DIR, "templates"), os.path.join(BASE_DIR, "templates/registration/")],
+        "DIRS": [os.path.join(BASE_DIR, "templates"), os.path.join(BASE_DIR, "templates/registration/"), os.path.join(BASE_DIR, "templates/book_management/")],
         #
         "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,

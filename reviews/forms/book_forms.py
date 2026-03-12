@@ -21,6 +21,7 @@ class SearchForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         label="Search within:",  # Added label for clarity
     )
+
     search = forms.CharField(
         error_messages={"required": ""},
         widget=forms.TextInput(

@@ -1,4 +1,4 @@
-## Advanced admin - creating custom admin site
+# Advanced admin - creating custom admin site
 - We use ``python3 manage.py startapp Bookr_admin`` inside bookr directory to
 create a new app to control our custom bookr admin site class in the admin.py file and redirect out url patterns to it to be our new admin_site
 - We want to make out custom admin site useful for our users so we will register

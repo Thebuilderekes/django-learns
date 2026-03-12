@@ -4,7 +4,7 @@ from django import forms
 class MakeOrderForm(forms.Form):
     quantity = forms.IntegerField(
         min_value=0, max_value=100,
-        error_messages={ 
+        error_messages={
             "required": "",
         },
         widget=None,
@@ -22,7 +22,7 @@ class MakeOrderForm(forms.Form):
             "required": "",
         },
     )
-
+# explain what this clean method  does in form
     def clean(self):
         cleaned_data = super().clean()
         clean_signup = cleaned_data.get("signup")

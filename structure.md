@@ -2,7 +2,8 @@ We are building a book review app where book covers can be uploaded along side i
 
 ## Important checks
 
-Set DEBUG to False when running app in production. Set to true to get the static files to be loaded correctly during local development.
+- Set DEBUG to False when running app in production. Set to true to get the static files to be loaded correctly during local development.
+- Dont forget ending slash in path urls.py
 
 ## Models we need
 

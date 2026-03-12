@@ -175,23 +175,28 @@ class Review(BaseModel):
         related_name='reviews',  # Access book reviews via book.reviews.all()
         help_text="The book that this review is for"
     )
+
     content = models.TextField(
         help_text="Provide a detailed review of the book.",
         blank=True  # Make optional at model level
     )
+
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,  # Better than auth.get_user_model()
         on_delete=models.CASCADE,
         related_name='reviews'
     )
+
     rating = models.IntegerField(
         help_text="The rating that the reviewer has given (1-5)",
         choices=[(i, i) for i in range(1, 6)]  # Limit to 1-5 range
     )
+
     date_created = models.DateTimeField(
         auto_now_add=True,
         help_text="Date and time the review was created"
     )
+
     date_edited = models.DateTimeField(
         auto_now=True,  # Automatically update on save
         help_text="Date and time the review was last edited"

@@ -262,7 +262,6 @@ def book_media(request, pk):
     return render(request, 'reviews/instance-form.html', context)
 
 
-
 @login_required
 def review_edit(request, book_pk, review_pk):
     book = get_object_or_404(Book, pk=book_pk)
