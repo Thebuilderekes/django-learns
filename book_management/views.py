@@ -1,5 +1,5 @@
 # Create your views here.
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import DeleteView, FormView, CreateView, UpdateView
@@ -56,7 +56,8 @@ class BookListView(ListView):
     extra_context = {'title': 'List of books'}
 
 class FormSuccessView(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse("Book record saved successfully")
+    def get(self):
+        save_message =  "Book record saved successfully"
+        return HttpResponse(save_message)
 
 # Create your views here.

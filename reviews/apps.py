@@ -5,6 +5,8 @@ from django.apps import AppConfig
 class ReviewsConfig(AppConfig):
     name = "reviews"
 
+class ContributorConfig(AppConfig):
+    name = "contributors"
 
 # class ReviewsAdminConfig(AdminConfig):
 #     default_site = "reviews.admin.BookRevAdminSite"

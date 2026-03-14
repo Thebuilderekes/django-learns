@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "django_browser_reload",
     'django_extensions',
     # "django.contrib.admin",
+    'rest_framework',
+    'rest_framework.authtoken',
     "bookr_admin.apps.BookrAdminConfig",
      "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
      "book_management",

@@ -1,12 +1,21 @@
 from django.urls import path
 
+from reviews import api_views
+
 # from django.contrib import admin
 from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from . import views, api_views
 
+router = DefaultRouter()
+router.register(r'books', api_views.BookViewSet)
+router.register(r'reviews', api_views.ReviewViewSet)
 # from .admin import admin_site
 # change back to above if it does not work
 
 urlpatterns = [
+    path('api/', include((router.urls, 'api'))),
     # path("admin/", admin.site.urls),
     path("", views.home, name="home"),
     path("books/", views.book_list),
