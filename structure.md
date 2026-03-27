@@ -19,3 +19,6 @@ We are building a book review app where book covers can be uploaded along side i
 
 Book view
 review view
+
+
+## Authentication

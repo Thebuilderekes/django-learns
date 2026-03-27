@@ -29,6 +29,7 @@ path('accounts/',
      include(('django.contrib.auth.urls', 'accounts'))
     ),
     path('myadmin/', admin_site.urls),
+    path('', include("bookr_test.urls")),
     path("accounts/profile", profile , name="profile"),
     path("", include("reviews.urls")),
     path('book_management/', include('book_management.urls'))
@@ -40,3 +41,7 @@ path('accounts/',
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    urlpatterns += [path("__debug__/", include("debug_toolbar.urls"))]

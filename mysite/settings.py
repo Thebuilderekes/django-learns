@@ -54,12 +54,14 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=Csv(
 INSTALLED_APPS = [
     "django_browser_reload",
     'django_extensions',
-    # "django.contrib.admin",
-    'rest_framework',
-    'rest_framework.authtoken',
+     # "django.contrib.admin",
+    # 'rest_framework',
+    # 'rest_framework.authtoken',
     "bookr_admin.apps.BookrAdminConfig",
      "reviews.apps.ReviewsConfig",     # 2. Loads the 'reviews' app and its models (label: 'reviews')
      "book_management",
+     "bookr_test",
+    "debug_toolbar",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -68,6 +70,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+"debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -99,7 +102,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "mysite.wsgi.application"
 
-
+INTERNAL_IPS = [
+    "127.0.0.1",
+    # ... other IPs, such as Docker gateway IP if using Docker
+    ]
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 

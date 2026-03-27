@@ -13,7 +13,7 @@ urlpatterns = [
               name='book_delete'),
         path('book_record_detail/<int:pk>',
               BookRecordDetailView.as_view(),
-              name='book_detail'),
+              name='book_record_detail'),
         path('new_book_record/',
              BookRecordFormView.as_view(),
              name='book_record_form'

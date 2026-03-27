@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path(
         "form_submit/",
-        TemplateView.as_view(template_name="form_submit.html"),
+        TemplateView.as_view(template_name="./form_example/form_submit.html"),
         name="form_submit",
     ),
 

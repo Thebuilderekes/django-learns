@@ -16,6 +16,7 @@ router.register(r'reviews', api_views.ReviewViewSet)
 
 urlpatterns = [
     path('api/', include((router.urls, 'api'))),
+    # path('api/login', api_views.Login.as_view(), name="login"),
     # path("admin/", admin.site.urls),
     path("", views.home, name="home"),
     path("books/", views.book_list),

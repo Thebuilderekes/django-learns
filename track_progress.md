@@ -62,3 +62,22 @@ choose to create our own html
 page a look and feel that goes with the branding of the website
 continue pg 521
 
+## ch-10
+
+## ch- 11
+
+## ch - 12
+- Implemented token based authentication
+
+# ch 13
+
+
+## ch 14 Testing
+
+- I tried logging in but its not working
+
+
+### testing models
+
+
+### testing views

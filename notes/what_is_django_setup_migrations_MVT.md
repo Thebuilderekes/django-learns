@@ -6,10 +6,29 @@ for example
 
 Learn about Django [security]https://corgea.com/Learn/django-security-best-practices-a-comprehensive-guid-for-software-engineers
 
+
+## How Django works
+When a user types in a url into the browser, the web server receives the url
+and calls Django using the WSGI web server gateway interface. Django receives
+the requested url and then then passes it to the view which then checks the
+shape of the details is needed in the request and the availability of the
+template that will be generated and communicates and then the request to the
+database using the ORM. The resource is located and communicated to the view
+which then communicates to the django templating engine to generate the
+template, the view then pushes the page content into a HTTPResponse, This
+includes all the HTTP headers and the body containing the HTML. The content gets
+returned to the web server through WSGI, and the server sends it down to the
+browser. That’s how you see your page.
+
+
+
 ## manage.py
 
-When a basic Django app is created, it is created with a mange.py script available for use.
+When a basic Django app is created, it is created with a `manage.py` script available for use.
 All commands that can run with the `manage.py` script are called management commands
+
+
+
 
 ## **MVT in Python (Django Framework)**
 
